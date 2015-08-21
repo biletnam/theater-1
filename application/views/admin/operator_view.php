@@ -390,7 +390,6 @@ if (!empty($data)) {
 
         //end mehul 21-08-2015
 
-
         $("a").addClass('pro_dis');
         $('.main').addClass('load');
         var data_id = $(e).attr('data-id');
