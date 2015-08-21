@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
+        <file>file:/E:/wamp/www/theater/application/config/database.php</file>
+        <file>file:/E:/wamp/www/theater/application/views/admin/includes/header.php</file>
+        <file>file:/E:/wamp/www/theater/application/views/admin/material/add.php</file>
+        <file>file:/E:/wamp/www/theater/application/views/admin/material/edit.php</file>
+        <file>file:/E:/wamp/www/theater/application/views/admin/material/list.php</file>
+        <file>file:/E:/wamp/www/theater/application/views/admin/category/edit.php</file>
+        <file>file:/E:/wamp/www/theater/application/views/admin/products/edit.php</file>
+        <file>file:/E:/wamp/www/theater/application/models/purchase_material_model.php</file>
+        <file>file:/E:/wamp/www/theater/application/views/admin/purchase_meterial/add.php</file>
+        <file>file:/E:/wamp/www/theater/application/views/admin/purchase_meterial/edit.php</file>
+        <file>file:/E:/wamp/www/theater/application/views/admin/purchase_meterial/list_old.php</file>
+        <file>file:/E:/wamp/www/theater/application/views/admin/dashboard_view.php</file>
+        <file>file:/E:/wamp/www/theater/application/config/routes.php</file>
+        <file>file:/E:/wamp/www/theater/application/libraries/access_level.php</file>
+        <file>file:/E:/wamp/www/theater/application/models/common_model.php</file>
+        <file>file:/E:/wamp/www/theater/application/controllers/common_ctrl.php</file>
+        <file>file:/E:/wamp/www/theater/application/controllers/admin_operator.php</file>
+        <file>file:/E:/wamp/www/theater/application/controllers/admin_purchase_material.php</file>
+        <file>file:/E:/wamp/www/theater/application/views/admin/purchase_meterial/list.php</file>
+        <file>file:/E:/wamp/www/theater/application/models/material_model.php</file>
+        <file>file:/E:/wamp/www/theater/application/controllers/admin_report_list.php</file>
+        <file>file:/E:/wamp/www/theater/application/views/admin/report_list/list.php</file>
+        <file>file:/E:/wamp/www/theater/application/controllers/admin_purchase_report.php</file>
+        <file>file:/E:/wamp/www/theater/application/models/purchase_report_model.php</file>
+        <file>file:/E:/wamp/www/theater/application/views/admin/purchase_report/list.php</file>
+    </open-files>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/E:/wamp/www/theater/application/views/admin/report/list.php</file>
+            <file>file:/E:/wamp/www/theater/application/views/admin/user/add.php</file>
+            <file>file:/E:/wamp/www/theater/application/views/admin/report/list_view.php</file>
+            <file>file:/E:/wamp/www/theater/application/views/admin/dashboard_view.php</file>
+            <file>file:/E:/wamp/www/theater/application/models/report_model.php</file>
+            <file>file:/E:/wamp/www/theater/application/controllers/admin_products.php</file>
+            <file>file:/E:/wamp/www/theater/application/controllers/admin_user.php</file>
+            <file>file:/E:/wamp/www/theater/application/models/operator_model.php</file>
+            <file>file:/E:/wamp/www/theater/application/models/products_model.php</file>
+            <file>file:/E:/wamp/www/theater/application/controllers/admin_report.php</file>
+            <file>file:/E:/wamp/www/theater/application/controllers/admin_operator.php</file>
+            <file>file:/E:/wamp/www/theater/application/views/admin/user/list.php</file>
+            <file>file:/E:/wamp/www/theater/application/views/admin/operator_view.php</file>
+            <file>file:/E:/wamp/www/theater/application/config/routes.php</file>
+        </group>
+    </open-files>
+</project-private>

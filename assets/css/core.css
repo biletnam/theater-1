@@ -1,0 +1,97 @@
+/*  ========================================= RESET =========================================
+  html5doctor.com Reset Stylesheet (Eric Meyer's Reset Reloaded + HTML5 baseline)
+  v1.4 2009-07-27 | Authors: Eric Meyer & Richard Clark
+  html5doctor.com/html-5-reset-stylesheet/
+*/
+
+
+.navheader {
+    font-size: 12px; padding: 10px 8px;
+}
+.slide-trigger {
+
+    display: none; /* need this */
+    border: 1px solid #CCCCCC;
+    cursor: pointer;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.slide-trigger span {
+    background-image:url(../images/dropdown-arrows.png);
+    background-position: 0 -14px;
+    display: block;
+    float: right;
+    margin-top: 3px;
+    height: 14px;
+    width: 32px;
+}
+
+.navigation {
+    max-width: none;
+    padding: 0; list-style-type:none; position:absolute; 
+} 
+.navigation li {
+    float: left;
+    list-style-type: none;
+}
+.navigation li a {
+    display: block; font-family:Roboto; font-weight:lighter;
+    color: #fff; border-right:solid 1px #fff;
+    padding:0 10px 0 10px; text-decoration:none;
+}
+.navigation li:last-child a { border-right:none;}
+.navigation li a:hover { background: #0fcaf2; }
+.group{ display:inline-block; margin:1.5% 7% 0 0}
+
+/*
+============================================
+    RESPONSIVENESS
+============================================
+*/
+
+@media only screen and (max-width: 768px) {
+
+    .group{ width:65%; margin:1.5% 3% 0 0;}
+
+    .navigation li a { padding:0 4px;}
+}
+@media only screen and (max-width: 760px) {
+    .slide-trigger { display: block; }
+    .no-js .slide-trigger { display: none; }
+    .navigation { display: none; }
+    .no-js .navigation { display: block; }
+    .navigation { margin: 0 15px; width:25%; background:#000; }
+    .navigation li { float: none; }
+    .navigation li a { border-bottom: 1px solid #fff; border-right:none; }
+    .group{ width:54%; margin: 0.5% 2% 0 0;}
+}
+@media only screen and (max-width: 640px) {
+    .group { margin: 0.5% 0 0 0;  width: 59%;}
+    .post_add { float:none;
+                margin:2% 0 0 4%;
+    }
+    .post_add a {padding: 0 17px;}
+}
+@media only screen and (max-width: 560px) {
+
+    .group_main {
+        width: 100%;
+    }
+    .logo {
+        text-align: center;
+        width: 100%;
+    }
+
+    .post_add {
+        margin:0;
+    }
+    .navigation {  width:51%;  }
+}
+
+@media only screen and (max-width: 480px) {
+    .group { width:53%;}
+    .navigation {  width:45%;  }
+}
+
+

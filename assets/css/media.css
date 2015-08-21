@@ -1,0 +1,337 @@
+@charset "utf-8";
+/* CSS Document */
+img, video, canvas {
+max-width: 100%;
+}
+@media screen and (max-width: 1200px){
+	
+	/*								Add  Ext Css BY M.K.									*/
+	
+}
+@media screen and (max-width: 980px){
+.main_head, .log_head, .main_headmenu, .main_div, .foot_main,.search_main,.search_key { width:100%; padding:0 1%;}
+.main_hemenu, .foot_head{width:98%; padding:1% 1% 1% 1%;}	
+ .main_area{width:98%; padding:3% 1% 3% 1%;}
+ 
+ 
+ /*								Add  Ext Css BY M.K.									*/
+ .log_right{margin-right:2%;}
+.geoBlock .inner {
+        -moz-column-count:4;
+        -webkit-column-count:4;
+        column-count:4;
+        overflow: hidden;
+    }	
+.detail_left_inner{width:42%;}
+.detil_right_inner{ margin: 0 0 0 1%;}
+.form_area{margin:0 auto;}
+.login_wi{
+		width:47%;
+		}
+.login_btn{margin-left:132px;}
+.box,p{text-align:justify;}
+.ragister_wi{width:78%;}
+.ragister_btn{margin-left:290px;}
+
+
+}
+@media screen and (max-width: 786px){
+.group_main{ width: 63%;}
+.one{ width:45%; }
+.two{ width:25%; }
+.three{ width:43%; margin:2% 0 0 1%;}
+.four{width: 16%; margin:2% 0 0 2%;}
+.full_cali ul { width: 23%;}
+.artit { width: 38%;}	
+.autit {width: 23%;}
+.beltit { width: 35%; margin:2% 0 0 1%;}
+.brtit {width: 16%; margin:2% 0 0 2%;}
+.commtit {width: 44%;}
+.autotit {width: 43%; margin:0;}
+.renttit {width: 44%;}
+.list_mainrg {width: 80%;}
+.list_titallf {font-size: 17px;}
+.list_titlerg {font-size: 14px;}
+.sellmain_titmain { width: 37%;}
+
+
+/*								Add  Ext Css BY M.K.									*/
+.geoBlock .inner {
+        -moz-column-count:3;
+        -webkit-column-count: 3;
+        column-count:3;
+        overflow: hidden;
+    }
+.detail_left{width:77%;}
+.alignment{-moz-column-count: 3;
+        -webkit-column-count: 3;
+        column-count:3;}	
+/*.detil_right{ margin: 0 0 0 1.5%;
+			  width:45%;}
+*/
+.detail_left_inner{width:52%;}
+.detil_right_inner{ margin: 0 0 0 1.8%;}
+.ext{margin: 2% 0 0 2%;
+    width: 31%;}
+.login_wi{
+		width:56%;
+		}
+.login_btn{margin-left:115px;}	
+.box,p{text-align:justify;}	
+.ragister_btn{margin-left:220px;}
+.comtact_wi{width:80%;}	
+}
+@media screen and (max-width: 760px){
+
+.post_add {
+    margin: 0 0 0 3%;
+}
+.group_main { width: 58%;}
+.sell ul {width: 28%;}
+
+
+/*								Add  Ext Css BY M.K.									*/
+.geoBlock .inner {
+        -moz-column-count:3;
+        -webkit-column-count: 3;
+        column-count:3;
+        overflow: hidden;
+    }
+.detail_left{width:75%;}
+.alignment{-moz-column-count: 3;
+        -webkit-column-count: 3;
+        column-count:3;}
+.detail_left_inner{width:54%;}
+.detil_right_inner{ margin: 0 0 0 1.8%;}
+.login_wi{
+		width:60%;
+		}	
+.box,p{text-align:justify;}
+}
+@media screen and (max-width: 640px){
+
+.group_main { width: 55%;}
+.one{ width:48%; }
+.two{ width:25%; }
+.three{ width:47%; margin:2% 0 0 1%;}
+.four{width: 16%; margin:2% 0 0 2%;}
+.full_cali ul { width: 30%;}
+.artit { width:56%;}	
+.autit {width: 23%;}
+.beltit { width:54%; margin:2% 0 0 1%;}
+.brtit {width: 16%; margin:2% 0 0 2%;}	
+.commtit {width: 50%;}
+.autotit {width: 49%; margin:0;}
+.renttit {width: 48%;}
+.sell ul {width: 46%;}
+.key_left {width: 98%; margin:0;}
+.key_right {width: 98%; margin:1% 0 0 0;}
+.key_sel {width: 72%;}
+.sell {margin: 0 0 0 3%; width: 65%;}
+.loc {width: 30%;}
+.list_mainrg { width: 73%;}
+/*								Add  Ext Css BY M.K.									*/
+.geoBlock .inner {
+        -moz-column-count:2;
+        -webkit-column-count: 2;
+        column-count:2;
+        overflow: hidden;
+    }
+.detail_left{width:75%;}
+.alignment{-moz-column-count: 2;
+        -webkit-column-count: 2;
+        column-count:2;}
+.loc{width:100%;}
+.detil_right{width:23.8%;}	
+.detail_left_inner{width:64%;}
+.detil_right_inner{ margin: 0 0 0 1.8%;}
+.formate{
+        width:100%;
+        -moz-column-count: 3;
+        -webkit-column-count: 3;
+        overflow: hidden;
+    }
+
+
+.four{margin: 2% 0 0 2%;
+    width: 17%;}
+	.formate_one{width:31%;}
+	.ext{margin: 2% 0 0 2%;
+    width: 31%;}
+.left{width:15%;}
+.left_r{width:85%;}
+.login_wi{
+		width:66%;
+		}	
+.box,p{text-align:justify;}
+.ragister_btn{margin-left:160px;}
+.contact_btn{margin-left:192px;}
+}
+
+@media screen and (max-width: 480px){
+.one{ width:100%; }	
+.three{ width:100%; }
+.two{ width:100%;  }
+.four{width: 100%; }
+.artit { width:100%;}	
+.autit {width: 100%;}
+.beltit { width:100%; }
+.brtit {width: 100%; }
+.two ul {margin: 0 0 0 4%;}	
+.four ul {margin: 0 0 0 4%;}
+.two1 ul {margin: 0 0 0 4%;}	
+.four1 ul {margin: 0 0 0 4%;}
+.full_cali ul {margin: 0 0 0 3%; width: 27%;}
+.head_foot li a {font-size: 13px;padding: 0 5px;}
+.sell {margin:2% 0 0 0; width: 100%;}	
+.loc {width: 38%;}
+.commtit {width: 98%;}
+.autotit {width: 98%;}
+.renttit {width: 98%; margin:0;}
+.auto1 ul {margin: 0 0 0 4%;}
+.key_in {width: 58%;}
+.key_sel {width: 49%;}
+.loc {width: 98%;}
+.all_hm { margin: 3% 0 0;}
+.list_mainrg { margin: 2% 0 0 1%;width: 96%;}
+.list_mainlf {text-align: center;width: 100%;}
+.detail_left { width: 100%;}
+.detil_right { margin: 1% 0 0 1%;width: 99%;}
+.fxtit {font-size: 14px;}
+.detial_can p { margin: 5% 0 0;} 
+.sell_dolar { display: block;width: 100%;}
+.sell_locm { display: block; width: 100%;}
+.sellmain_titmain { width: 100%; display: block;}
+.sellmain_add {display:block;width: 100%;}
+.add_mar {margin:0;}
+
+
+/*								Add  Ext Css BY M.K.									*/
+.geoBlock .inner {
+        -moz-column-count:2;
+        -webkit-column-count: 2;
+        column-count:2;
+        overflow: hidden;
+    }
+.detail_left{width:72%;}
+.alignment{-moz-column-count: 2;
+        -webkit-column-count: 2;
+        column-count:2;}
+.loc{width:100%;}	
+.detil_right{width:26.8%;}
+.detail_left_inner{width:44%;}
+.detil_right_inner{ margin: 0 0 0 0;}
+.alignment_one{-moz-column-count: 1;
+        -webkit-column-count: 1;
+        column-count:1;}
+.formate{
+        width:100%;
+        -moz-column-count: 2;
+        -webkit-column-count: 2;
+        overflow: hidden;
+    }
+
+
+.four{margin: 2% 0 0 2%;
+    width: 22%;}
+	.formate_one{width:48%;}
+.ext{margin: 2% 0 0 2%;
+    width: 48%;}
+#promocode{
+			width:320px;}
+.left{width:17%;}			
+.left_r{width:80%;}
+.description_one{height:179px;width:379px;}
+#ab{margin-left:77px;}
+#cd{margin-left:160px;}
+#ef{margin-left:61px;}
+#gh{margin-left:170px;}
+
+.form_area{margin:0 auto;
+		   padding:2%;}
+.login_wi{
+		width:85%;
+		}	
+.box,p{text-align:justify;}
+.ragister_btn{margin-left:110px;}
+.contact_input{width:98%;}
+.contact_btn{margin-left:146px;}
+}
+@media screen and (max-width: 360px){
+	
+.full_cali ul {margin: 0 0 0 3%;width: 45%;}
+
+.moov {
+    margin: 2.5% 0;
+}
+
+
+/*								Add  Ext Css BY M.K.									*/
+.geoBlock .inner {
+        -moz-column-count:2;
+        -webkit-column-count: 2;
+        column-count:2;
+        overflow: hidden;
+    }	
+.detail_left{width:48%;}
+.detil_right_inner {width:27.8%;}
+.alignment{-moz-column-count: 1;
+        -webkit-column-count: 1;
+        column-count:1;}
+.loc{width:100%;}	
+.detil_right{width:50%;}
+.image_cl{width:120px;
+		  height:120px;}
+.detail_left_inner{width:36%;}
+.four{margin: 2% 0 0 2%;
+    width: 47%;}
+.formate_one{width:48%;}
+.ext{margin: 2% 0 0 2%;
+    width: 50%;}
+#title, #email, #confirm_email, #postcode, #location, #selling_price, #contact_number, #age, #price, #fees_paid_by, #salary, #education,#image,#address,#day,#time,#week,#bedrooms, #promocode,#smiley{
+		width:97%;
+
+}
+.description_one{height:179px;width:263px;}
+.left{width:23%;}
+.left_r{width:77%;}
+#ab{margin-left:16px;}
+#cd{margin-left:100px;}
+#ef{margin-left:15px;}
+#gh{margin-left:111px;}
+.login_input{width:92%;}
+.login_btn{margin-left:39px;}
+
+.box,p{text-align:justify;}
+.ragister_btn{margin-left:66px;}
+.rag{padding:3%;}
+.ragister_input{width:95%;}
+.lo{padding:3%;}
+.contact_btn{margin-left:99px;}
+.co{padding:4%;}
+}
+@media screen and (max-width: 320px){
+.image_cl{width:90px;
+		  height:90px;}	
+.detil_right_inner {width:30.8%;}
+.detail_left_inner{width:29%;}
+.formate_one{width:48%;}
+.description_one{height:163px;width:232px;}
+.left{width:23%;}
+.left_r{width:75%;}
+#ab{margin-left:-5px;}
+
+#cd{margin-left:74px;}
+#ef{margin-left:-5px;}
+#gh{margin-left:95px;}
+.form_area other{margin:0 auto;
+		   padding:3%;}
+.box,p{text-align:justify;}
+.ragister_btn{margin-left:46px;}
+.login_btn{margin-left:27px;}
+.contact_btn{margin-left:80px;}
+#title, #email, #confirm_email, #postcode, #location, #selling_price, #contact_number, #age, #price, #fees_paid_by, #salary, #education,#image,#address,#day,#time,#week,#bedrooms, #promocode,#smiley{
+		width:95%;
+
+}
+}
