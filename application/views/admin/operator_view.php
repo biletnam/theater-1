@@ -795,7 +795,7 @@ if (!empty($data)) {
             <div class="order_button_class">
                 <input class="btn_clear_all" onclick="okClear(this)" type="button" value="CLR">
                 <input id="print_bill" type="button" value="Print" onclick = "document.getElementById('light').style.display = 'block';
-                        document.getElementById('fade').style.display = 'block'">
+        document.getElementById('fade').style.display = 'block'">
 
             </div>
             <div class="discount">
@@ -809,7 +809,7 @@ if (!empty($data)) {
                     <div class="bill_title">Billing</div>
                     <div class="bill_close">
                         <a href = "javascript:void(0)" onclick = "document.getElementById('light').style.display = 'none';
-                                document.getElementById('fade').style.display = 'none'">Close</a>
+        document.getElementById('fade').style.display = 'none'">Close</a>
                     </div>
                 </div>
 
@@ -820,7 +820,7 @@ if (!empty($data)) {
                 <div style="width: 100%; float: left;">
                     <div class="bill_close">
                         <a href = "javascript:void(0)" onclick = "document.getElementById('pop_up').style.display = 'none';
-                                document.getElementById('fade').style.display = 'none'">Close</a>
+        document.getElementById('fade').style.display = 'none'">Close</a>
                     </div>
                 </div>
             </div>
