@@ -99,7 +99,13 @@
             $('.append_qua').hide();
             $('.item_qua').show();
             //mehul change
-            var num1 = $('#mytxt').attr('data-qua');
+
+
+            if ($('#mytxt').val()) {
+                var num1 = $('#mytxt').val();
+            } else {
+                var num1 = $('#mytxt').attr('data-qua');
+            }
             //end changes
             //var num1 = $('#mytxt').val();
             var checkVal = isCheckedIntOrFloat(num1);
@@ -293,6 +299,8 @@ if (!empty($data)) {
     }
 
     function removeItem(e) {
+        $('.btn_count').attr('disabled', true);
+        $('.btn_count_right').attr('disabled', true);
         total = $('.total_display').text();
         remove_price = $(e).siblings('.item_price').text();
         ans = total - remove_price;
@@ -445,6 +453,50 @@ if (!empty($data)) {
     var arr_data = [];
     var arr_qua = [];
     function myid(e) {
+
+
+        //mehul 21-08-2015
+        if ($('#mytxt').attr('data-qua')) {
+            if ($('#mytxt').val() === "" || $('#mytxt').val() === ".") {
+                var new_qua = $('#mytxt').attr('data-qua');
+            } else {
+                var new_qua = $('#mytxt').val();
+            }
+            var fix_price = $('.curr_price').attr('data-fix');
+            var product_id = $('.curr_price').parents().attr('data-id');
+            var uom = $('.curr_price').attr('data-uom');
+            var product_name = $('#mytxt').siblings('.item_name').text();
+            var count = new_qua;//$('#mytxt').attr('data-qua');
+            var total_price = fix_price * count;
+            $('.curr_price').text(total_price);
+            $.ajax({
+                url: base_url + 'admin_purchase_material/update_session',
+                type: "POST",
+                data: {product_id: product_id, add_count: count, total_product_price: total_price, product_name: product_name, fix_price: fix_price, uom: uom},
+                success: function(data) {
+
+                },
+                error: function() {
+                }
+            });
+            var sum = 0.0;
+            $('.item_price').each(function()
+            {
+                sum += parseFloat($(this).text());
+            });
+            $('.total_display').text(sum);
+            //product quantity count
+            var sum_qua = 0;
+            $('.item_qua').each(function()
+            {
+                checkValQty = isCheckedIntOrFloat($(this).text());
+                sum_qua += checkValQty;
+            });
+            $('.tot_quantity').text(sum_qua);
+            $('#mytxt').replaceWith('<a class="item_qua current qua_css" href="javascript:void(0)" onclick="myAddClass(this)">' + new_qua + '</a>');
+        }
+
+        //end mehul 21-08-2015
         $("a").addClass('pro_dis');
         $('.main').addClass('load');
         //$("#load").show().delay(5000).fadeOut();
@@ -919,7 +971,7 @@ if (!empty($data)) {
                     <div class="bill_title">Billing</div>
                     <div class="bill_close">
                         <a href = "javascript:void(0)" onclick = "document.getElementById('light').style.display = 'none';
-                                document.getElementById('fade').style.display = 'none'">Close</a>
+        document.getElementById('fade').style.display = 'none'">Close</a>
                     </div>
                 </div>
                 <input id="order_button" class="order_button" onclick="orderPlace(this)" type="button" value="Place Order">
@@ -928,7 +980,7 @@ if (!empty($data)) {
                 <div style="width: 100%; float: left;">
                     <div class="bill_close">
                         <a href = "javascript:void(0)" onclick = "document.getElementById('pop_up').style.display = 'none';
-                                document.getElementById('fade').style.display = 'none'">Close</a>
+        document.getElementById('fade').style.display = 'none'">Close</a>
                     </div>
                 </div>
             </div>
