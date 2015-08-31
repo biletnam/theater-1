@@ -3,16 +3,6 @@
 <script type="text/javascript">
     var base_url = '<?php echo base_url() ?>';
 
-    function preview_Image(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                $('#patient_img').attr('src', e.target.result);
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
     function getPerPlaces(obj, child_type) {
         var parent_id = $(obj).val();
 //        toggle_loader($('#per_' + child_type))
@@ -95,30 +85,52 @@
         </div>
 
         <div class="control-group">
-            <label for="inputError" class="control-label">Title</label>
+            <label for="inputError" class="control-label">Title<span class="star">*</span></label>
             <div class="controls">
                 <input type="text" id="" name="title" value="" >
-                <!--<span class="help-inline">Woohoo!</span>-->
+
             </div>
         </div>
-
         <div class="control-group">
-            <label for="inputError" class="control-label">Price</label>
+            <label for="inputError" class="control-label">Product Type:-<span class="star">*</span></label>
+            <div class="controls">
+                <?php
+                $js = "";
+                $attribute = 'id="product_type"  onchange="' . $js . '" ';
+                echo form_dropdown('product_type', $product_type_opt, '', $attribute);
+                ?>
+            </div>
+
+        </div>
+        <div class="control-group">
+            <label for="inputError" class="control-label">Unit of Measurement:-<span class="star">*</span></label>
+            <div class="controls">
+                <?php
+                $js = "";
+                $attribute = 'id="uom"  onchange="' . $js . '" ';
+                echo form_dropdown('uom', $uom_opt, '', $attribute);
+                ?>
+            </div>
+
+        </div>
+        <div class="control-group">
+            <label for="inputError" class="control-label">Quantity<span class="star">*</span></label>
+            <div class="controls">
+                <input type="text" id="" name="qty" value="" >
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="inputError" class="control-label">Price<span class="star">*</span></label>
             <div class="controls">
                 <input type="text" id="" name="price" value="" >
-                <!--<span class="help-inline">Woohoo!</span>-->
             </div>
         </div>
-
         <div class="control-group">
-            <label for="inputError" class="control-label">Images: </label>
+            <label for="inputError" class="control-label">Images: <span class="star">*</span></label>
             <div class="controls">
-
-                <input type="file" name="images[]" multiple="multiple" />
-
+                <input type="file" name="images" value="" />
             </div>
         </div>
-
         <div class="control-group">
             <label for="inputError" class="control-label">Description </label>
             <div class="controls">
@@ -130,7 +142,7 @@
             <label for="inputError" class="control-label">Combo</label>
             <div class="controls">
                 <input type="checkbox" id="" name="is_group" value="YES" >
-                <!--<span class="help-inline">Woohoo!</span>-->
+
             </div>
         </div>
 

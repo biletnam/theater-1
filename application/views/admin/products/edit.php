@@ -57,7 +57,8 @@
     <?php
     //form data
     $attributes = array('class' => 'form-horizontal', 'id' => '');
-
+    $ci = &get_instance();
+    $ci->load->model('common_model');
     //form validation
     echo validation_errors();
 
@@ -66,8 +67,10 @@
     <fieldset>
         <input type="hidden" value="<?php echo $this->session->userdata('redirect_url') ?>" name="redirect_url" />
 
-        <?php foreach ($products as $products_content) { ?>
-            <?php //echo "<pre>"; print_r($products_content); die; ?>
+        <?php
+        foreach ($products as $products_content) {
+            ?>
+            <?php //echo "<pre>"; print_r($products_content); die;  ?>
             <input type="hidden" value="<?php echo $products_content['products_id'] ?>" name="products_id" />
 
             <div class="control-group">
@@ -99,7 +102,43 @@
 
                 </div>
             </div>
+            <div class="control-group">
+                <label for="inputError" class="control-label">Product Type:-<span class="star">*</span></label>
+                <div class="controls">
+                    <?php
+                    $js = "";
+                    $attribute = 'id="product_type"  onchange="' . $js . '" ';
+                    echo form_dropdown('product_type', $product_type_opt, $products_content['product_type'], $attribute);
+                    ?>
+                </div>
 
+            </div>
+            <div class="control-group">
+                <label for="inputError" class="control-label">Unit of Measurement:-<span class="star">*</span></label>
+                <div class="controls">
+                    <?php
+                    $js = "";
+                    $attribute = 'id="uom"  onchange="' . $js . '" ';
+                    echo form_dropdown('uom', $uom_opt, $products_content['uom'], $attribute);
+                    ?>
+                </div>
+
+            </div>
+            <?php
+            $where = " AND uom_id={$products_content['uom']}";
+            $uom_unit = $ci->common_model->getFieldData('uom', 'uom', $where);
+            if ($uom_unit == "KG" || $uom_unit == "LTR") {
+                $convertedQty = Access_level::convertToLTROrKG($products_content['qty']);
+            } else {
+                $convertedQty = $products_content['qty'];
+            }
+            ?>
+            <div class="control-group">
+                <label for="inputError" class="control-label">Quantity<span class="star">*</span></label>
+                <div class="controls">
+                    <input type="text" id="" name="qty" value="<?php echo $convertedQty; ?>">
+                </div>
+            </div>
             <div class="control-group">
                 <label for="inputError" class="control-label">Price</label>
                 <div class="controls">
@@ -111,15 +150,10 @@
             <div class="control-group">
                 <label for="inputError" class="control-label">Images: </label>
                 <div class="controls">
-    <!--                <input type="file" name="image" id="gellary" onchange="preview_Image(this);">-->
-                    <input type="file" name="images[]" multiple="multiple"  />
-                    <?php
-                    $view_images = explode(',', $products_content['images']);
-                    foreach ($view_images as $multi_images) {
-                        ?>
-                        <div style="float:left; padding: 1px;"><img width="100" src="<?php echo base_url(); ?>uploads/images/<?php echo $multi_images; ?>" /></div>
-                    <?php }
-                    ?>
+                    <input type="file" name="images" value="" />
+
+                    <div style="float:left; padding: 1px;"><img width="100" src="<?php echo base_url(); ?>uploads/product/<?php echo $products_content['images']; ?>" /></div>
+
                     <input type="hidden" name="old_image" value="<?php echo $products_content['images'] ?>" />
 
                 </div>

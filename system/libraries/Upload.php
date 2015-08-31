@@ -324,8 +324,6 @@ class CI_Upload {
         return TRUE;
     }
 
- 
-
     protected function set_multi_upload_data() {
         $this->_multi_upload_data[] = array(
             "file_name" => $this->file_name,
@@ -746,7 +744,7 @@ class CI_Upload {
             return TRUE;
         }
 
-        if (count($this->allowed_types) == 0 OR ! is_array($this->allowed_types)) {
+        if (count($this->allowed_types) == 0 OR !is_array($this->allowed_types)) {
             $this->set_error('upload_no_file_types');
             return FALSE;
         }
@@ -1160,7 +1158,6 @@ class CI_Upload {
          */
         if (DIRECTORY_SEPARATOR !== '\\') {
             //$cmd = 'file --brief --mime ' . escapeshellarg($file['tmp_name']) . ' 2>&1';
-
 //            if (function_exists('exec')) {
 //                /* This might look confusing, as $mime is being populated with all of the output when set in the second parameter.
 //                 * However, we only neeed the last line, which is the actual return value of exec(), and as such - it overwrites
@@ -1173,7 +1170,6 @@ class CI_Upload {
 //                    return;
 //                }
 //            }
-
 //            if ((bool) @ini_get('safe_mode') === FALSE && function_exists('shell_exec')) {
 //                $mime = @shell_exec($cmd);
 //                if (strlen($mime) > 0) {
@@ -1184,7 +1180,6 @@ class CI_Upload {
 //                    }
 //                }
 //            }
-
 //            if (function_exists('popen')) {
 //                $proc = @popen($cmd, 'r');
 //                if (is_resource($proc)) {

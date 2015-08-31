@@ -108,6 +108,28 @@ class Functions {
         return $response;
     }
 
+    function do_upload_one($filename, $path, $allowtype = 'jpg|jpeg|png|gif|bmp|thm|tif|yuv|svg|drw|PNG|GIF') {
+
+        $config['upload_path'] = $path;
+        $config['allowed_types'] = $allowtype;
+        $config['max_size'] = '20480000';
+        $config['max_width'] = '0';
+        $config['max_height'] = '0';
+        $config['overwrite'] = FALSE;
+        $config['encrypt_name'] = TRUE;
+
+        $ci = get_instance();
+        $ci->load->library('upload');
+        $ci->upload->initialize($config);
+        if (!$ci->upload->do_upload($filename)) {
+            $response = array('error' => $ci->upload->display_errors());
+        } else {
+            $response = array('upload_data' => $ci->upload->data());
+        }
+
+        return $response;
+    }
+
     function do_upload_video($filename, $path = './uploads/video', $allowtype = 'mp4|m4v|mov|mpg|mpeg|wmv') {
 
         $config['upload_path'] = $path;

@@ -44,13 +44,20 @@
     <div class="quickLink">
         <a href="<?php echo base_url(); ?>admin/material" title="material">
             <img alt="Add material" src="<?php echo base_url(); ?>/assets/img/admin/ico/categoryico.png" />
-            <span>Row Material</span>
+            <span>Raw Material</span>
         </a>
     </div>
+
     <div class="quickLink">
         <a href="<?php echo base_url(); ?>admin/purchase_material" title="Purchase Material">
             <img alt="Purchase Material" src="<?php echo base_url(); ?>/assets/img/admin/ico/categoryico.png" />
             <span>Purchase Material</span>
+        </a>
+    </div>
+    <div class="quickLink">
+        <a href="<?php echo base_url(); ?>admin/uom" title="Unit of Measurement">
+            <img alt="Unit of Measurement" src="<?php echo base_url(); ?>/assets/img/admin/ico/categoryico.png" />
+            <span>Unit of Measurement</span>
         </a>
     </div>
     <div class="quickLink">

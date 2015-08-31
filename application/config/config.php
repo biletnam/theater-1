@@ -359,6 +359,7 @@ $config['rewrite_short_tags'] = FALSE;
   |
  */
 $config['proxy_ips'] = '';
+$config['product_type_flag'] = array('' => 'Select', 'RM' => 'RM', "FG" => "FG", "BOTH" => "BOTH");
 
 
 /* End of file config.php */

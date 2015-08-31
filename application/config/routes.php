@@ -112,6 +112,15 @@ $route['admin/purchase_material/update/(:any)'] = 'admin_purchase_material/updat
 $route['admin/purchase_material/delete/(:any)'] = 'admin_purchase_material/delete/$1';
 $route['admin/purchase_material/(:any)'] = 'admin_purchase_material/index/$1'; //$1 = page number
 
+
+$route['admin/uom'] = 'admin_uom/index';
+$route['admin/uom/add'] = 'admin_uom/add';
+$route['admin/uom/update'] = 'admin_uom/update';
+$route['admin/uom/update/(:any)'] = 'admin_uom/update/$1';
+$route['admin/uom/delete/(:any)'] = 'admin_uom/delete/$1';
+$route['admin/uom/(:any)'] = 'admin_uom/index/$1';
+
+
 $route['admin/operator_data'] = 'admin_operator_data/index';
 $route['admin/operator_data/(:any)'] = 'admin_operator_data/index/$1';
 

@@ -29,12 +29,7 @@ class Admin_purchase_material extends CI_Controller {
      * @return void
      */
     public function index() {
-
         $this->session->set_userdata('total_quantity');
-        //$data['category'] = $this->operator_model->get_category();
-//        $session_arr = $this->session->all_userdata();
-//        $data['operator_id'] = $session_arr['user_id'];
-        //$data['row_material'] = $this->material_model->get_row_matetial_item();
         $data['main_content'] = 'admin/purchase_meterial/list';
         $this->load->view('admin/includes/template', $data);
     }
@@ -101,14 +96,14 @@ class Admin_purchase_material extends CI_Controller {
                     "total" => $value['total'],
                     'datetime' => time(),
                 );
-//                $row_material_detail = $this->material_model->get_row_matetial_item_by_id($value['item_row_material_id']);
-//                $initialQty = @$row_material_detail[0]['qty'];
-//                $updatedQty = $initialQty + $value['qty'];
-//                $update_row_material = array(
-//                    "qty" => $updatedQty,
-//                );
+                $row_material_detail = $this->material_model->get_row_matetial_item_by_id($value['item_row_material_id']);
+                $initialQty = @$row_material_detail[0]['qty'];
+                $updatedQty = $initialQty + $value['qty'];
+                $update_row_material = array(
+                    "qty" => $updatedQty,
+                );
                 $this->purchase_material_model->store_purchase_material_detail($order_detail);
-//                $this->material_model->update_material($update_row_material, $value['item_row_material_id']);
+                $this->material_model->update_material($update_row_material, $value['item_row_material_id']);
             }
         }
     }
@@ -120,11 +115,6 @@ class Admin_purchase_material extends CI_Controller {
             echo "<tr><td><a class='item_" . $row_material_item['item_row_material_id'] . "' onclick='myid(this)' data-id=" . $row_material_item['item_row_material_id'] . " href='javascript:void(0)'><img class='product_img' src='" . site_url() . "assets/img/admin/ico/categoryico.png'></a></td><td style='float:left;'><a href='javascript:void(0)'>" . $row_material_item['name'] . "</a></td></tr>";
         }
         "</table>";
-    }
-
-    public function get_operator_data() {
-        $operator_user_id = $this->input->post('operator_id');
-        $total = $this->operator_model->get_operator_report($operator_user_id);
     }
 
     public function unset_session() {
@@ -152,17 +142,11 @@ class Admin_purchase_material extends CI_Controller {
             "uom" => $uom,
             "total" => $total
         );
-//        echo "<pre>";
-//        print_r($arr);
-//        exit;
+
         $array = array($product_id => $arr);
         $data = $this->session->userdata('my_order');
         $data[$product_id] = $arr;
         $this->session->set_userdata('my_order', $data);
-//        echo "<pre>";
-//        print_r($this->session->all_userdata());
-//        echo "</pre>";
-//        exit;
     }
 
     public function delete_session() {

@@ -85,7 +85,7 @@ class Access_level {
 
 
         if ($user_type == 'super_admin') {
-            $modules = array('company', 'user', 'products', 'material', 'category', 'operator_list', 'operator_data', 'purchase_material', 'report_list', 'purchase_report', 'purchase_report_today');
+            $modules = array('company', 'user', 'products', 'material', 'category', 'operator_list', 'operator_data', 'purchase_material', 'report_list', 'purchase_report', 'purchase_report_today', 'uom');
         }
         //2 admin
         if ($user_type == 'admin') {
@@ -103,6 +103,22 @@ class Access_level {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public static function convertToMlOrGm($data) {
+        $fixValue = 1000;
+        if (!empty($data)) {
+            $finalValue = $data * $fixValue;
+            return $finalValue;
+        }
+    }
+
+    public static function convertToLTROrKG($data) {
+        $fixValue = 1000;
+        if (!empty($data)) {
+            $finalValue = $data / $fixValue;
+            return $finalValue;
         }
     }
 
