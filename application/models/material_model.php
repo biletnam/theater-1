@@ -103,8 +103,8 @@ class material_model extends CI_Model {
      * @return boolean
      */
     function update_material($data, $id) {
-        $this->db->where('item_row_material_id', $id);
-        $this->db->update('item_row_material', $data);
+        $this->db->where('products_id', $id);
+        $this->db->update('products', $data);
         $report = array();
         $report['error'] = $this->db->_error_number();
         $report['message'] = $this->db->_error_message();
@@ -128,7 +128,9 @@ class material_model extends CI_Model {
     public function get_row_matetial_item() {
 
         $this->db->select('*');
-        $this->db->from('item_row_material');
+        $this->db->from('products');
+        $this->db->or_where('product_type', 'RM');
+        $this->db->or_where('product_type', 'BOTH');
         $this->db->where('status', "Active");
         $query = $this->db->get();
         return $query->result_array();
@@ -136,8 +138,8 @@ class material_model extends CI_Model {
 
     public function get_row_matetial_item_by_id($id) {
         $this->db->select('*');
-        $this->db->from('item_row_material');
-        $this->db->where('item_row_material_id', $id);
+        $this->db->from('products');
+        $this->db->where('products_id', $id);
         $query = $this->db->get();
         //echo $a = $this->db->last_query(); die;
         return $query->result_array();
