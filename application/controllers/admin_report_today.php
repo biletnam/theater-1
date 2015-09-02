@@ -145,7 +145,6 @@ class Admin_report_today extends CI_Controller {
             $data['search_string_selected'] = '';
             $data['order'] = 'id';
 
-
             //fetch sql data into arrays
             $data['count_today_sale'] = $this->report_model->count_today_sale($start_of_day, $end_of_day);
             $data['today_sale'] = $this->report_model->get_today_sale($start_of_day, $end_of_day, '', '', $order_type, $config['per_page'], $limit_end);
