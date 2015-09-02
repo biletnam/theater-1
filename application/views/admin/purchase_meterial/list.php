@@ -834,8 +834,7 @@ if (!empty($data)) {
     .title_quantity{ float: left; width: 20%; text-align: center; font-weight: bold;}
     .title_subtotal{ float: left; width: 20%; text-align: center; font-weight: bold;}
     .title_price{ float: left; width: 12%; text-align: center; font-weight: bold;}
-    .title_uom{float: left;font-weight: bold;text-align: center;width: 15%;
-    }
+    .title_uom{float: left;font-weight: bold;text-align: center;width: 15%;}
     .price_tit{ float: left; width: 12%; text-align: center; border-bottom: 1px solid #CCC;}
     .cancel_btn{color: red; float: left; text-align: right; }
 
