@@ -88,7 +88,6 @@ class Admin_purchase_material extends CI_Controller {
             'total_quantity' => $this->input->post('total_quantity'),
             'user_id' => $user_id
         );
-
         $last_insert_id = $this->purchase_material_model->store_purchase_material($order);
         if (!empty($session_data)) {
             foreach ($session_data as $value) {
@@ -110,6 +109,33 @@ class Admin_purchase_material extends CI_Controller {
                 );
                 $this->purchase_material_model->store_purchase_material_detail($order_detail);
                 $this->material_model->update_material($update_row_material, $value['products_id']);
+                //mehul 31-08-2015
+                $inventory_data = $this->purchase_material_model->get_data_from_inventory($value['title']);
+                if (empty($inventory_data)) {
+                    $arr_insert = array(
+                        "name" => $value['title'],
+                        "qua" => $value['qty'],
+                        "uom" => $value['uom'],
+                        "total_cost" => $value['total'],
+                    );
+                    $this->purchase_material_model->addProductInventory($arr_insert);
+                } else {
+                    $where = "AND name='" . $value['title'] . "'";
+                    $qua_inv = $this->common_model->getFieldData('inventory', 'qua', $where);
+
+                    $where = "AND name='" . $value['title'] . "'";
+                    $new_total = $this->common_model->getFieldData('inventory', 'total_cost', $where);
+
+                    $new_qua = $qua_inv + $value['qty'];
+                    $new_total = $new_total + $value['total'];
+                    $arr = array(
+                        "qua" => $new_qua,
+                        "total_cost" => $new_total,
+                    );
+                    $this->purchase_material_model->update_inventory_by_purchase_material($value['title'], $arr);
+                }
+
+                //mehul 31-08-2015
             }
         }
     }
@@ -119,7 +145,7 @@ class Admin_purchase_material extends CI_Controller {
         $html = "<table>";
         foreach ($product_meterial as $product_meterial_item) {
             $product_images = $product_meterial_item['images'];
-            echo "<tr><td><a class='item_" . $product_meterial_item['products_id'] . "' onclick='myid(this)' data-id=" . $product_meterial_item['products_id'] . " href='javascript:void(0)'><img class='product_img' src='" . site_url() . "uploads/product/" . $product_images . "'></a></td><td style='float:left;'><a href='javascript:void(0)'>" . $product_meterial_item['title'] . "</a></td></tr>";
+            echo "<tr><td><a class='item_" . $product_meterial_item['products_id'] . "' onclick='myid(this)' data-id=" . $product_meterial_item['products_id'] . " href='javascript:void(0)'><img class='product_img' src='" . site_url() . "uploads/images/" . $product_images . "'></a></td><td style='float:left;'><a href='javascript:void(0)'>" . $product_meterial_item['title'] . "</a></td></tr>";
         }
         "</table>";
     }

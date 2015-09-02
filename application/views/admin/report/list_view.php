@@ -15,7 +15,7 @@
         <h2>
             <?php echo ucfirst($this->uri->segment(2)); ?>
             <a  href="javascript:void(0)" class="sub_total">Sub Total : <?php echo $sub_total; ?></a><br>
-            <a  href="javascript:void(0)" class="sub_total">Quantity : <?php echo $count_data; ?></a>
+            <a  href="javascript:void(0)" class="sub_total">Quantity : <?php echo $quantity; ?></a>
             <?php /* ?> <a style="margin-right:30px;" href="<?php echo site_url("admin").'/'.$this->uri->segment(2); ?>/exportcsv" class="btn btn-info">Export User</a> <?php */ ?>
         </h2>
     </div>

@@ -129,9 +129,9 @@ class material_model extends CI_Model {
 
         $this->db->select('*');
         $this->db->from('products');
-        $this->db->or_where('product_type', 'RM');
-        $this->db->or_where('product_type', 'BOTH');
         $this->db->where('status', "Active");
+        $where = '(product_type="RM" or product_type = "BOTH")';
+        $this->db->where($where);
         $query = $this->db->get();
         return $query->result_array();
     }

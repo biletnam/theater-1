@@ -15,7 +15,8 @@ class operator_model extends CI_Model {
         $this->db->from('products');
         $this->db->where('category_id', $category_id);
         $this->db->where('status', 'Active');
-        $this->db->where('product_type', 'FG');
+        $where = '(product_type="FG" or product_type = "BOTH")';
+        $this->db->where($where);
         $query = $this->db->get();
 //        echo $a = $this->db->last_query();
 //        die;

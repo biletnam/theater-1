@@ -43,7 +43,7 @@ class Admin_operator_list extends CI_Controller {
         $order_type = $this->input->post('order_type');
 
         //pagination settings
-        $config['per_page'] = 1;
+        $config['per_page'] = 20;
 
         $config['base_url'] = base_url() . 'admin/operator_list';
         $config['use_page_numbers'] = TRUE;
