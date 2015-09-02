@@ -65,6 +65,6 @@
         <div class="form-actions">
             <button id="search_btn" class="btn btn-primary" type="submit">Search</button>
             <button class="btn btn-primary" type="submit">Export CSV</button>
-            <a class="btn" href="<?php echo site_url('admin') ?>">Cancel</a>
+            <a class="btn" href="<?php echo site_url('admin') ?>/report_list">Cancel</a>
         </div>
     </fieldset>

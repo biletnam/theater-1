@@ -4,7 +4,7 @@
         <li>
             <a href="<?php echo site_url("admin/dashboard"); ?>">
                 <?php echo ucfirst($this->uri->segment(1)); ?>
-            </a> 
+            </a>
             <span class="divider">/</span>
         </li>
         <li class="active">
@@ -14,7 +14,7 @@
 
     <div class="page-header users-header">
         <h2>
-            <?php echo ucfirst($this->uri->segment(2)); ?> 
+            <?php echo ucfirst($this->uri->segment(2)); ?>
             <a  href="<?php echo site_url("admin") . '/' . $this->uri->segment(2); ?>/add" class="btn btn-success">Add a new</a>
         </h2>
     </div>
@@ -61,7 +61,7 @@
                 <?php
                 $attributes = array('class' => 'form-inline reset-margin', 'id' => 'myform');
 
-//save the columns names in a array that we will use as filter         
+//save the columns names in a array that we will use as filter
                 $options_category = array();
                 foreach ($category as $array) {
                     foreach ($array as $key => $value) {
@@ -116,12 +116,12 @@
                         echo '<td>' . $row['path'] . '</td>';
                         echo '<td>' . $row['status'] . '</td>';
                         echo '<td class="crud-actions">
-                  <a  href="' . site_url("admin") . '/category/update/' . $row['category_id'] . '" class="btn btn-info">view & edit</a>  
-                  <a href="' . site_url("admin") . '/category/delete/' . $row['category_id'] . '" class="btn btn-danger complexConfirm">delete</a>
+                  <a  href="' . site_url("admin") . '/category/update/' . $row['category_id'] . '" class="btn btn-info">view & edit</a>
+                  <a href="' . site_url("admin") . '/category/delete/' . $row['category_id'] . '" class="btn btn-danger">delete</a>
                 </td>';
                         echo '</tr>';
                     }
-                    ?>      
+                    ?>
                 </tbody>
             </table>
 

@@ -8,13 +8,13 @@
             <span class="divider">/</span>
         </li>
         <li class="active">
-            Today Sale<?php //echo ucfirst($this->uri->segment(2));                           ?>
+            Today Sale<?php //echo ucfirst($this->uri->segment(2));                               ?>
         </li>
     </ul>
 
     <div class="page-header users-header">
         <h2>
-            Today Sale<?php //echo ucfirst($this->uri->segment(2));                            ?>
+            Today Sale<?php //echo ucfirst($this->uri->segment(2));                                ?>
             <?php
             $attributes = array('class' => 'form-horizontal', 'id' => '');
             echo validation_errors();
@@ -61,4 +61,5 @@
             ?>
 
         </div>
+        <a class="btn" href="<?php echo site_url('admin') ?>/report_list">Back</a>
     </div>
