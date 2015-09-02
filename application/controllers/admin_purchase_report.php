@@ -1,12 +1,12 @@
 <?php
 
 class Admin_purchase_report extends CI_Controller {
+
     /**
      * name of the folder responsible for the views
      * which are manipulated by this controller
      * @constant string
      */
-
     const VIEW_FOLDER = 'admin/purchase_report';
 
     /**
@@ -97,15 +97,74 @@ class Admin_purchase_report extends CI_Controller {
         $end_date = strtotime("tomorrow", $end_date) - 1;
         $start_date = strtotime($this->input->post('start_date'));
         $product_name = $this->input->post('product_name');
-        $data['search_product'] = $abc = $this->purchase_report_model->getOrderDataBetweenTwoDates($product_name, $start_date, $end_date);
-        $total = 0;
-        $qua = 0;
-        foreach ($abc as $value) {
-            $total = $total + $value['cost'];
-            $qua = $qua + $value['qty'];
+        $is_search = $this->input->post('is_search');
+
+        if ($is_search == "search") {
+            $data['search_product'] = $abc = $this->purchase_report_model->getOrderDataBetweenTwoDates($product_name, $start_date, $end_date);
+            $total = 0;
+            $qua = 0;
+            foreach ($abc as $value) {
+                $total = $total + $value['cost'];
+                $qua = $qua + $value['qty'];
+            }
+            $data['sub_total'] = $total;
+            $data['quantity'] = $qua;
+        } else {
+            $this->db->select('*');
+            $this->db->from('item_row_material_purchase_details');
+            $this->db->where('name', $product_name);
+            $this->db->where('datetime >=', $start_date);
+            $this->db->where('datetime <=', $end_date);
+            $this->db->where('status', 'Active');
+            $query = $this->db->get();
+            $rs_users = $query->result_array();
+
+            $currentDate = date('Y-m-d_H-i-s');
+            $fname = 'purchase_' . $currentDate . '.xls';
+            $filepath = './uploads/export_csv/' . $fname;
+            $heading_row = array('Material Name', 'Quantity', 'Cost', 'UOM', 'Total', 'Date');
+            $header = '';
+            $data = '';
+            $value = '';
+
+            for ($h = 0; $h < count($heading_row); $h++) {
+                $header .= $heading_row[$h] . "\t";
+            }
+            if (count($rs_users) > 0) {
+                for ($c = 0; $c < count($rs_users); $c++) {
+                    $line = '';
+                    $date_order = date('m/d/Y', $rs_users[$c]['datetime']);
+                    $product_title = (!empty($rs_users[$c]['name']) ? $rs_users[$c]['name'] : "");
+                    $quantity = (!empty($rs_users[$c]['qty']) ? $rs_users[$c]['qty'] : "");
+                    $cost = (!empty($rs_users[$c]['cost']) ? $rs_users[$c]['cost'] : "" );
+                    $uom = (!empty($rs_users[$c]['uom']) ? $rs_users[$c]['uom'] : "" );
+                    $total = (!empty($rs_users[$c]['total']) ? $rs_users[$c]['total'] : "" );
+                    $date = (!empty($date_order) ? $date_order : "");
+
+                    $content_row = array();
+                    $content_row = array($product_title, $quantity, $cost, $uom, $total, $date);
+                    for ($a = 0; $a < count($content_row); $a++) {
+
+                        if ((!isset($content_row[$a]) ) || ( $content_row[$a] == "" )) {
+                            $value = "\t";
+                        } else {
+                            $value = $content_row[$a] . "\t";
+                        }
+                        $line .= $value;
+                    }
+
+                    $data .= trim($line) . "\n";
+                }
+            }
+            header("Content-type:application/octet-stream");
+            header("Content-Disposition:attachment;filename=$fname");
+            header("Pragma: no-cache");
+            header("Expires: 0");
+            print "$header\n$data";
+            //echo file_get_contents($filepath);
+            //unlink($filepath);
+            exit;
         }
-        $data['sub_total'] = $total;
-        $data['quantity'] = $qua;
         $data['main_content'] = 'admin/purchase_report/list_view';
         $this->load->view('admin/includes/template', $data);
     }

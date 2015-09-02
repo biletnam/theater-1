@@ -8,14 +8,21 @@
             <span class="divider">/</span>
         </li>
         <li class="active">
-            Purchase Today Report<?php //echo ucfirst($this->uri->segment(2));                ?>
+            Purchase Today Report<?php //echo ucfirst($this->uri->segment(2));                  ?>
         </li>
     </ul>
 
     <div class="page-header users-header">
         <h2>
-            Purchase Today Report<?php //echo ucfirst($this->uri->segment(2));                 ?>
-
+            Purchase Today Report<?php //echo ucfirst($this->uri->segment(2));                   ?>
+            <?php
+            $attributes = array('class' => 'form-horizontal', 'id' => '');
+            echo validation_errors();
+            echo form_open_multipart('admin/purchase_report_today/exportcsv', $attributes);
+            ?>
+            <input type="hidden" name="do_export" value="do_export">
+            <button style="float: right;" class="btn btn-primary" type="submit">Export CSV</button>
+            <?php echo form_close(); ?>
         </h2>
     </div>
 

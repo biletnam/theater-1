@@ -160,4 +160,64 @@ class Admin_report_today extends CI_Controller {
         $this->load->view('admin/includes/template', $data);
     }
 
+    public function exportcsv() {
+        $do_export = $this->input->post('do_export');
+        $start_of_day = time() - 86400 + (time() % 86400);
+        $end_of_day = $start_of_day + 86400;
+        if (!empty($do_export)) {
+            $this->db->select('*');
+            $this->db->from('order_detail');
+            $this->db->where('datetime >=', $start_of_day);
+            $this->db->where('datetime <=', $end_of_day);
+            $query = $this->db->get();
+            $rs_users = $query->result_array();
+
+            $currentDate = date('Y-m-d_H-i-s');
+            $fname = 'sales_today_' . $currentDate . '.xls';
+            $filepath = './uploads/export_csv/' . $fname;
+            $heading_row = array('Product Title', 'Quantity', 'Cost', 'Date');
+            $header = '';
+            $data = '';
+            $value = '';
+
+            for ($h = 0; $h < count($heading_row); $h++) {
+                $header .= $heading_row[$h] . "\t";
+            }
+            if (count($rs_users) > 0) {
+                for ($c = 0; $c < count($rs_users); $c++) {
+                    $line = '';
+                    $date_order = date('m/d/Y', $rs_users[$c]['datetime']);
+                    $product_title = (!empty($rs_users[$c]['product_title']) ? $rs_users[$c]['product_title'] : "");
+                    $quantity = (!empty($rs_users[$c]['quantity']) ? $rs_users[$c]['quantity'] : "");
+                    $cost = (!empty($rs_users[$c]['cost']) ? $rs_users[$c]['cost'] : "" );
+                    $date = (!empty($date_order) ? $date_order : "");
+
+                    $content_row = array();
+                    $content_row = array($product_title, $quantity, $cost, $date);
+                    for ($a = 0; $a < count($content_row); $a++) {
+
+                        if ((!isset($content_row[$a]) ) || ( $content_row[$a] == "" )) {
+                            $value = "\t";
+                        } else {
+                            $value = $content_row[$a] . "\t";
+                        }
+                        $line .= $value;
+                    }
+
+                    $data .= trim($line) . "\n";
+                }
+            }
+            header("Content-type:application/octet-stream");
+            header("Content-Disposition:attachment;filename=$fname");
+            header("Pragma: no-cache");
+            header("Expires: 0");
+            print "$header\n$data";
+            //echo file_get_contents($filepath);
+            //unlink($filepath);
+            exit;
+        }
+        $data['main_content'] = 'admin/report_today/list';
+        $this->load->view('admin/includes/template', $data);
+    }
+
 }

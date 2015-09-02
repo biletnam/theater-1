@@ -335,13 +335,11 @@ class Admin_user extends CI_Controller {
 
     public function exportcsv() {
         $do_export = $this->input->post('do_export');
-        $type_of_membership = $this->input->post('type_of_membership');
-        $language_inter = $this->input->post('language_interface');
         if (!empty($do_export)) {
             //echo "go"; die;
             //$rs_users = $this->user_model->get_user('', '', '', '','');
             $this->db->select('*');
-            $this->db->from('user');
+            $this->db->from('order');
             if (!empty($type_of_membership)) {
                 $this->db->where('type_of_membership', $type_of_membership);
             }

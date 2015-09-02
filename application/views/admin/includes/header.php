@@ -6,22 +6,14 @@
         <link href="<?php echo base_url(); ?>assets/css/admin/global.css" rel="stylesheet" type="text/css">
         <link href="<?php echo base_url(); ?>assets/css/admin/bootstrap-datetimepicker.css" rel="stylesheet" type="text/css">
         <link href="<?php echo base_url(); ?>assets/css/admin/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>/assets/css/admin/style.css">
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
 
         <script type="text/javascript"> var base_url = '<?php echo base_url(); ?>'</script>
-<!--        <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>-->
         <script src="<?php echo base_url(); ?>assets/js/jquery-1.7.1.min.js"></script>
         <script src="//code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
-        <script src="<?php echo base_url(); ?>assets/js/hogan.js"></script>
-        <script src="<?php echo base_url() ?>assets/js/jquery.js"></script>
-        <script src="<?php echo base_url() ?>assets/js/bootstrap.js"></script>
-<!--        <script src="<?php echo base_url() ?>assets/js/bootstrap.min.js"></script>-->
         <script src="<?php echo base_url(); ?>assets/js/bootstrap-datetimepicker.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/bootstrap-datetimepicker.min.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/jquery.session.js"></script>
-        <script src="<?php echo base_url(); ?>assets/js/typeahead.js"></script>
-
     </head>
     <?php
     $CI = & get_instance();
@@ -44,9 +36,9 @@
                             <a href="<?php echo base_url(); ?>admin/dashboard">Dashboard</a>
                         </li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">theater<b <?php //echo ($m_count > 0) ? 'style="margin-top:11px"' : ''                                                       ?> class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">theater<b <?php //echo ($m_count > 0) ? 'style="margin-top:11px"' : ''                                                                          ?> class="caret"></b></a>
                             <?php // if($m_count > 0){ ?>
-                            <div class="tip_div"><span class="tip"><span class="tip_in"><?php //echo $m_count;                                                       ?></span></span></div>
+                            <div class="tip_div"><span class="tip"><span class="tip_in"><?php //echo $m_count;                                                                          ?></span></span></div>
                             <?php // }   ?>
                             <ul class="dropdown-menu">
                                 <li <?php

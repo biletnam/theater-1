@@ -15,8 +15,10 @@ class operator_model extends CI_Model {
         $this->db->from('products');
         $this->db->where('category_id', $category_id);
         $this->db->where('status', 'Active');
+        $this->db->where('product_type', 'FG');
         $query = $this->db->get();
-        //echo $a = $this->db->last_query(); die;
+//        echo $a = $this->db->last_query();
+//        die;
         return $query->result_array();
     }
 
@@ -43,6 +45,7 @@ class operator_model extends CI_Model {
         $this->db->select('*');
         $this->db->from('products');
         $this->db->where('status', 'Active');
+        $this->db->where('product_type', 'FG');
         $query = $this->db->get();
         return $query->result_array();
     }
@@ -63,6 +66,28 @@ class operator_model extends CI_Model {
         $this->db->where('user_id', $user_id);
         $query = $this->db->get();
         return $query->result_array();
+    }
+
+    public function get_ingredients_by_product_id($product_id) {
+        $this->db->select('*');
+        $this->db->from('product_ingredients');
+        $this->db->where('product_id', $product_id);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    function update_inventory_by_sale_product($name, $data) {
+        $this->db->where('name', $name);
+        $this->db->update('inventory', $data);
+        //echo $this->db->last_query();
+        $report = array();
+        $report['error'] = $this->db->_error_number();
+        $report['message'] = $this->db->_error_message();
+        if ($report !== 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

@@ -3,7 +3,11 @@
         $(function() {
             $("#joining_date").datepicker({dateFormat: "yy-mm-dd"});
             $("#end_date").datepicker({dateFormat: "yy-mm-dd"});
+            $('#search_btn').click(function() {
+                $('#is_search').val('search');
+            });
         });
+
     </script>
     <ul class="breadcrumb">
         <li>
@@ -57,11 +61,10 @@
                 </select>
             </div>
         </div>
-
+        <input type="hidden" name="is_search" id="is_search">
         <div class="form-actions">
-            <button class="btn btn-primary" type="submit">Search</button>
+            <button id="search_btn" class="btn btn-primary" type="submit">Search</button>
+            <button class="btn btn-primary" type="submit">Export CSV</button>
             <a class="btn" href="<?php echo site_url('admin') ?>">Cancel</a>
         </div>
     </fieldset>
-
-    <?php echo form_close(); ?>

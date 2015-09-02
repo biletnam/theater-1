@@ -91,7 +91,7 @@ class Admin_operator extends CI_Controller {
             'discount' => $this->input->post('discount'),
             'payment_mode' => $this->input->post('payment_mode'),
             'quantity' => $this->input->post('quantity'),
-            'grand_amount' => $this->input->post(grand_amount),
+            'grand_amount' => $this->input->post('grand_amount'),
             'user_id' => $user_id
         );
         $last_insert_id = $this->operator_model->addOrder($order);
@@ -108,18 +108,32 @@ class Admin_operator extends CI_Controller {
                     'datetime' => time(),
                 );
                 $this->operator_model->addOrderDetail($order_detail);
+                //mehul 31-08-2015
+                $ingr_list = $this->operator_model->get_ingredients_by_product_id($value['products_id']);
+                foreach ($ingr_list as $ingr) {
+                    $where = "AND name='" . $ingr['material_name'] . "'";
+                    $qua_inv = $this->common_model->getFieldData('inventory', 'qua', $where);
+
+                    $where = "AND name='" . $ingr['material_name'] . "'";
+                    $new_total = $this->common_model->getFieldData('inventory', 'total_cost', $where);
+
+                    $new_qua = $qua_inv - $ingr['material_qua'];
+                    $new_total = $new_total - $value['total'];
+                    $arr = array(
+                        "qua" => $new_qua,
+                        "total_cost" => $new_total,
+                    );
+                    $this->operator_model->update_inventory_by_sale_product($ingr['material_name'], $arr);
+                }
+                //mehul 31-08-2015 over
             }
         }
     }
 
     public function get_all_product() {
         $products = $this->operator_model->get_products();
-        //echo "<pre>"; print_r($products); die;
         $html = "<table>";
         foreach ($products as $product) {
-            //echo "<pre>"; print_r($product); die;
-            //$id = str_replace(' ', '_', $pro['title']);
-
             echo "<tr><td><a class='item_" . $product['products_id'] . "' onclick='myid(this)' data-id=" . $product['products_id'] . " href='javascript:void(0)'><img class='product_img' src='" . site_url() . "uploads/images/" . $product['images'] . "'></a></td><td style='float:left;'><a href='javascript:void(0)'>" . $product['title'] . "</a></td></tr>";
         }
         "</table>";

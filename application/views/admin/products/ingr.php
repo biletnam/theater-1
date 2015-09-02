@@ -1,3 +1,9 @@
+<script src="//code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/hogan.js"></script>
+<script src="<?php echo base_url() ?>assets/js/jquery.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/typeahead.js"></script>
+<script src="<?php echo base_url() ?>assets/js/bootstrap.js"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>/assets/css/admin/style.css">
 <script>
     $(document).ready(function() {
         $('#name').typeahead({

@@ -1,6 +1,6 @@
 <?php
 
-class purchase_material_model extends CI_Model {
+class material_model extends CI_Model {
 
     /**
      * Responsable for auto load the database
@@ -15,10 +15,10 @@ class purchase_material_model extends CI_Model {
      * @param int $product_id
      * @return array
      */
-    public function get_purchase_material_by_id($id) {
+    public function get_material_by_id($id) {
         $this->db->select('*');
-        $this->db->from('item_row_material_purchase');
-        $this->db->where('item_row_material_purchase_id', $id);
+        $this->db->from('item_row_material');
+        $this->db->where('item_row_material_id', $id);
         $query = $this->db->get();
         return $query->result_array();
     }
@@ -33,10 +33,10 @@ class purchase_material_model extends CI_Model {
      * @param int $limit_end
      * @return array
      */
-    public function get_purchase_material($search_string = null, $order = null, $order_type = 'DESC', $limit_start = null, $limit_end = null, $wherestatus = null) {
+    public function get_material($search_string = null, $order = null, $order_type = 'DESC', $limit_start = null, $limit_end = null, $wherestatus = null) {
 
         $this->db->select('*');
-        $this->db->from('item_row_material_purchase');
+        $this->db->from('item_row_material');
         if ($wherestatus != null) {
             $this->db->where('status', $wherestatus);
         }
@@ -44,12 +44,12 @@ class purchase_material_model extends CI_Model {
         if ($search_string) {
             $this->db->like($order, $search_string);
         }
-        $this->db->group_by('item_row_material_purchase_id');
+        $this->db->group_by('item_row_material_id');
 
         if ($order) {
             $this->db->order_by($order, $order_type);
         } else {
-            $this->db->order_by('item_row_material_purchase_id', $order_type);
+            $this->db->order_by('item_row_material_id', $order_type);
         }
 
         if ($limit_start && $limit_end) {
@@ -71,9 +71,9 @@ class purchase_material_model extends CI_Model {
      * @param int $order
      * @return int
      */
-    function count_purchase_material($search_string = null, $order = null) {
+    function count_material($search_string = null, $order = null) {
         $this->db->select('*');
-        $this->db->from('item_row_material_purchase');
+        $this->db->from('item_row_material');
         $this->db->where('status', 'Active');
         if ($search_string) {
             $this->db->like($order, $search_string);
@@ -81,7 +81,7 @@ class purchase_material_model extends CI_Model {
         if ($order) {
             $this->db->order_by($order, 'Asc');
         } else {
-            $this->db->order_by('item_row_material_purchase_id', 'Asc');
+            $this->db->order_by('item_row_material_id', 'Asc');
         }
         $query = $this->db->get();
         return $query->num_rows();
@@ -92,14 +92,9 @@ class purchase_material_model extends CI_Model {
      * @param array $data - associative array with data to store
      * @return boolean
      */
-    function store_purchase_material($insertArr) {
-        $insert = $this->db->insert('item_row_material_purchase', $insertArr);
-        return $this->db->insert_id();
-    }
-
-    function store_purchase_material_detail($data) {
-        $insert = $this->db->insert('item_row_material_purchase_details', $data);
-        return $this->db->insert_id();
+    function store_material($insertArr) {
+        $insert = $this->db->insert('item_row_material', $insertArr);
+        return $insert;
     }
 
     /**
@@ -107,9 +102,9 @@ class purchase_material_model extends CI_Model {
      * @param array $data - associative array with data to store
      * @return boolean
      */
-    function update_purchase_material($data, $id) {
-        $this->db->where('item_row_material_purchase_id', $id);
-        $this->db->update('item_row_material_purchase', $data);
+    function update_material($data, $id) {
+        $this->db->where('item_row_material_id', $id);
+        $this->db->update('item_row_material', $data);
         $report = array();
         $report['error'] = $this->db->_error_number();
         $report['message'] = $this->db->_error_message();
@@ -125,47 +120,29 @@ class purchase_material_model extends CI_Model {
      * @param int $id - category id
      * @return boolean
      */
-    function delete_purchase_material($id) {
-        $this->db->where('item_row_material_purchase_id', $id);
-        $this->db->delete('item_row_material_purchase');
+    function delete_material($id) {
+        $this->db->where('item_row_material_id', $id);
+        $this->db->delete('item_row_material');
     }
 
-//mehul 31-08-2015
-    function update_inventory_by_purchase_material($name, $data) {
-        $this->db->where('name', $name);
-        $this->db->update('inventory', $data);
-        //echo $this->db->last_query();
-        $report = array();
-        $report['error'] = $this->db->_error_number();
-        $report['message'] = $this->db->_error_message();
-        if ($report !== 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    public function get_row_matetial_item() {
 
-    public function get_data_from_inventory($name) {
         $this->db->select('*');
-        $this->db->from('inventory');
-        $this->db->where('name', $name);
+        $this->db->from('item_row_material');
+        $this->db->where('status', "Active");
         $query = $this->db->get();
         return $query->result_array();
     }
 
-    public function addProductInventory($data) {
-        $insert = $this->db->insert('inventory', $data);
-        return $this->db->insert_id();
+    public function get_row_matetial_item_by_id($id) {
+        $this->db->select('*');
+        $this->db->from('item_row_material');
+        $this->db->where('item_row_material_id', $id);
+        $query = $this->db->get();
+        //echo $a = $this->db->last_query(); die;
+        return $query->result_array();
     }
 
-    //mehul31-08-2015 over
-//    function get_umo_by_id($id) {
-//        $this->db->select('umo');
-//        $this->db->from('item_row_material');
-//        $this->db->where('item_row_material_id', $id);
-//        $query = $this->db->get();
-//        return $query->result_array();
-//    }
 }
 
 ?>

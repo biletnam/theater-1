@@ -66,7 +66,7 @@
                     break;
                 }
 
-                echo form_open('admin/products', $attributes);
+                echo form_open('admin/inventory', $attributes);
 
                 echo form_label('Search:', 'search_string');
                 ?>
@@ -100,9 +100,9 @@
                     <tr>
                         <th class="header">#</th>
 
-                        <th class="yellow header headerSortDown">Title</th>
-                        <th class="yellow header headerSortDown">Price</th>
-                        <th class="yellow header headerSortDown">Status</th>
+                        <th class="yellow header headerSortDown">Name</th>
+                        <th class="yellow header headerSortDown">Quantity</th>
+                        <th class="yellow header headerSortDown">UOM</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -111,13 +111,13 @@
                         $index = $key + 1;
                         echo '<tr>';
                         echo '<td>' . $index . '</td>';
-                        echo '<td>' . $row['title'] . '</td>';
-                        echo '<td>' . $row['price'] . '</td>';
-                        echo '<td>' . $row['status'] . '</td>';
+                        echo '<td>' . $row['name'] . '</td>';
+                        echo '<td>' . $row['qua'] . '</td>';
+                        echo '<td>' . $row['uom'] . '</td>';
                         echo '<td class="crud-actions">
-                  <a  href="' . site_url("admin") . '/products/update/' . $row['products_id'] . '/' . $row['category_id'] . '" class="btn btn-info">view & edit</a>
-                  <a href="' . site_url("admin") . '/products/delete/' . $row['products_id'] . '" class="btn btn-danger complexConfirm">delete</a>
-                  <a  href="' . site_url("admin") . '/products/ingredients/' . $row['products_id'] . '" class="btn btn-info">Ingr</a>
+                  <a  href="' . site_url("admin") . '/inventory/update/' . $row['inventory_id'] . '" class="btn btn-info">view & edit</a>
+                  <a href="' . site_url("admin") . '/inventory/delete/' . $row['inventory_id'] . '" class="btn btn-danger">delete</a>
+
                 </td>';
                         echo '</tr>';
                     }

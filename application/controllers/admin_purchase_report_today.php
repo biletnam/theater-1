@@ -1,12 +1,12 @@
 <?php
 
 class Admin_purchase_report_today extends CI_Controller {
+
     /**
      * name of the folder responsible for the views
      * which are manipulated by this controller
      * @constant string
      */
-
     const VIEW_FOLDER = 'admin/purchase_report_today';
 
     /**
@@ -156,6 +156,69 @@ class Admin_purchase_report_today extends CI_Controller {
         $this->pagination->initialize($config);
 
         //load the view
+        $data['main_content'] = 'admin/purchase_report_today/list';
+        $this->load->view('admin/includes/template', $data);
+    }
+
+    public function exportcsv() {
+        $do_export = $this->input->post('do_export');
+        $start_of_day = time() - 86400 + (time() % 86400);
+        $end_of_day = $start_of_day + 86400;
+        if (!empty($do_export)) {
+            $this->db->select('*');
+            $this->db->from('item_row_material_purchase_details');
+            $this->db->where('datetime >=', $start_of_day);
+            $this->db->where('datetime <=', $end_of_day);
+            $this->db->where('status', 'Active');
+            $query = $this->db->get();
+            $rs_users = $query->result_array();
+
+            $currentDate = date('Y-m-d_H-i-s');
+            $fname = 'purchase_today_' . $currentDate . '.xls';
+            $filepath = './uploads/export_csv/' . $fname;
+            $heading_row = array('Material Name', 'Quantity', 'Cost', 'UOM', 'Total', 'Date');
+            $header = '';
+            $data = '';
+            $value = '';
+
+            for ($h = 0; $h < count($heading_row); $h++) {
+                $header .= $heading_row[$h] . "\t";
+            }
+            if (count($rs_users) > 0) {
+                for ($c = 0; $c < count($rs_users); $c++) {
+                    $line = '';
+                    $date_order = date('m/d/Y', $rs_users[$c]['datetime']);
+                    $product_title = (!empty($rs_users[$c]['name']) ? $rs_users[$c]['name'] : "");
+                    $quantity = (!empty($rs_users[$c]['qty']) ? $rs_users[$c]['qty'] : "");
+                    $cost = (!empty($rs_users[$c]['cost']) ? $rs_users[$c]['cost'] : "" );
+                    $uom = (!empty($rs_users[$c]['uom']) ? $rs_users[$c]['uom'] : "" );
+                    $total = (!empty($rs_users[$c]['total']) ? $rs_users[$c]['total'] : "" );
+                    $date = (!empty($date_order) ? $date_order : "");
+
+                    $content_row = array();
+                    $content_row = array($product_title, $quantity, $cost, $uom, $total, $date);
+                    for ($a = 0; $a < count($content_row); $a++) {
+
+                        if ((!isset($content_row[$a]) ) || ( $content_row[$a] == "" )) {
+                            $value = "\t";
+                        } else {
+                            $value = $content_row[$a] . "\t";
+                        }
+                        $line .= $value;
+                    }
+
+                    $data .= trim($line) . "\n";
+                }
+            }
+            header("Content-type:application/octet-stream");
+            header("Content-Disposition:attachment;filename=$fname");
+            header("Pragma: no-cache");
+            header("Expires: 0");
+            print "$header\n$data";
+            //echo file_get_contents($filepath);
+            //unlink($filepath);
+            exit;
+        }
         $data['main_content'] = 'admin/purchase_report_today/list';
         $this->load->view('admin/includes/template', $data);
     }

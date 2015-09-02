@@ -54,7 +54,7 @@ $active_record = TRUE;
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
 $db['default']['password'] = '';
-$db['default']['database'] = 'theater';
+$db['default']['database'] = 'theater_new';
 
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
