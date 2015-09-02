@@ -116,7 +116,7 @@
                         echo '<td>' . $row['status'] . '</td>';
                         echo '<td class="crud-actions">
                   <a  href="' . site_url("admin") . '/products/update/' . $row['products_id'] . '/' . $row['category_id'] . '" class="btn btn-info">view & edit</a>
-                  <a href="' . site_url("admin") . '/products/delete/' . $row['products_id'] . '" class="btn btn-danger complexConfirm">delete</a>
+                  <a href="' . site_url("admin") . '/products/delete/' . $row['products_id'] . '" class="btn btn-danger">delete</a>
                   <a  href="' . site_url("admin") . '/products/ingredients/' . $row['products_id'] . '" class="btn btn-info">Ingr</a>
                 </td>';
                         echo '</tr>';

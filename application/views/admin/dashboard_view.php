@@ -68,15 +68,16 @@
     </div>
 
     <div class="quickLink">
-        <a href="<?php echo base_url(); ?>admin/report" title="report">
-            <img alt="report" src="<?php echo base_url(); ?>/assets/img/admin/ico/categoryico.png" />
-            <span>Report</span>
-        </a>
-    </div>
-    <div class="quickLink">
         <a href="<?php echo base_url(); ?>admin/report_list" title="report">
             <img alt="report" src="<?php echo base_url(); ?>/assets/img/admin/ico/categoryico.png" />
             <span>Report List</span>
+        </a>
+    </div>
+
+    <div class="quickLink">
+        <a href="<?php echo base_url(); ?>admin/inventory" title="inventory">
+            <img alt="inventory" src="<?php echo base_url(); ?>/assets/img/admin/ico/categoryico.png" />
+            <span>Inventory</span>
         </a>
     </div>
 

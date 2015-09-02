@@ -159,6 +159,11 @@ $route['admin/purchase_report_today'] = 'admin_purchase_report_today/index';
 $route['admin/purchase_report_today/search'] = 'admin_purchase_report_today/search';
 $route['admin/purchase_report_today/(:any)'] = 'admin_purchase_report_today/index/$1';
 
+$route['admin/inventory'] = 'admin_inventory/index';
+$route['admin/inventory/update'] = 'admin_inventory/update';
+$route['admin/inventory/update/(:any)'] = 'admin_inventory/update/$1';
+$route['admin/inventory/delete/(:any)'] = 'admin_inventory/delete/$1';
+
 $route['admin/dashboard'] = 'dashboard/index';
 /*/
 /* End of file routes.php */
