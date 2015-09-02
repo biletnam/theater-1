@@ -283,7 +283,7 @@ $data = $this->session->userdata('my_order');
 if (!empty($data)) {
     foreach ($data as $value) {
         ?>
-                        $('.item_<?php echo $value['item_row_material_id'] ?> img').addClass('repeat');
+                        $('.item_<?php echo $value['products_id'] ?> img').addClass('repeat');
         <?php
     }
 }
@@ -454,7 +454,8 @@ if (!empty($data)) {
     var arr_qua = [];
     function myid(e) {
 
-
+        $('.btn_count_right').attr('disabled', true);
+        $('.btn_count').attr('disabled', true);
         //mehul 21-08-2015
         if ($('#mytxt').attr('data-qua')) {
             if ($('#mytxt').val() === "" || $('#mytxt').val() === ".") {
@@ -747,7 +748,7 @@ if (!empty($data)) {
         //var discount = $('.disc_input').val();
         //var payment_mode = $('.paymet_class').val();
         var total_quantity = $('.tot_quantity').text();
-        alert(total_quantity);
+        //alert(total_quantity);
         var time_date = $.now();
         if (total_amount > 0) {
             $.ajax({
@@ -833,8 +834,7 @@ if (!empty($data)) {
     .title_quantity{ float: left; width: 20%; text-align: center; font-weight: bold;}
     .title_subtotal{ float: left; width: 20%; text-align: center; font-weight: bold;}
     .title_price{ float: left; width: 12%; text-align: center; font-weight: bold;}
-    .title_uom{float: left;font-weight: bold;text-align: center;width: 15%;
-    }
+    .title_uom{float: left;font-weight: bold;text-align: center;width: 15%;}
     .price_tit{ float: left; width: 12%; text-align: center; border-bottom: 1px solid #CCC;}
     .cancel_btn{color: red; float: left; text-align: right; }
 
@@ -899,7 +899,7 @@ if (!empty($data)) {
         $item_quantity = 0;
         if (!empty($data)) {
             foreach ($data as $value) {
-                $grand += $value['cost'] * $value['qty'];
+                $grand += $value['price'] * $value['qty'];
                 $item_quantity += $value['qty'];
             }
         }
@@ -920,12 +920,12 @@ if (!empty($data)) {
             if (!empty($data)) {
                 foreach ($data as $data_session) {
                     ?>
-                    <div id="product_<?php echo $data_session['item_row_material_id'] ?>" class="bill_item" data-id="<?php echo $data_session['item_row_material_id'] ?>">
-                        <div href="javascript:void(0)" class='item_name'><?php echo $data_session['name'] ?></div>
+                    <div id="product_<?php echo $data_session['products_id'] ?>" class="bill_item" data-id="<?php echo $data_session['products_id'] ?>">
+                        <div href="javascript:void(0)" class='item_name'><?php echo $data_session['title'] ?></div>
                         <a onclick="myAddClass(this)" href="javascript:void(0)" class='item_qua'><?php echo $data_session['qty'] ?></a><a onclick="myAddClass(this)" href="javascript:void(0)" class="append_qua abc"></a>
                         <div class="uom_tit" href="javascript:void(0)"><?php echo $data_session['uom'] ?></div>
-                        <div class="price_tit" href="javascript:void(0)"><?php echo $data_session['cost'] ?></div>
-                        <div href="javascript:void(0)" data-uom="<?php echo $data_session['uom'] ?>" data-title='<?php echo $data_session['name'] ?>' data-fix='<?php echo $data_session['cost'] ?>' data-price='<?php echo $data_session['total'] ?>' class='item_price curr_price'><?php echo $data_session['total'] ?></div>
+                        <div class="price_tit" href="javascript:void(0)"><?php echo $data_session['price'] ?></div>
+                        <div href="javascript:void(0)" data-uom="<?php echo $data_session['uom'] ?>" data-title='<?php echo $data_session['title'] ?>' data-fix='<?php echo $data_session['price'] ?>' data-price='<?php echo $data_session['total'] ?>' class='item_price curr_price'><?php echo $data_session['total'] ?></div>
                         <a onclick="removeItem(this)" class="cancel_btn" href="javascript:void(0)">X</a>
                     </div>
                     <?php

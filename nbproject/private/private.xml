@@ -1,30 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
+        <file>file:/E:/wamp/www/theater/application/views/admin/dashboard_view.php</file>
+        <file>file:/E:/wamp/www/theater/application/config/routes.php</file>
+        <file>file:/E:/wamp/www/theater/application/libraries/access_level.php</file>
+        <file>file:/E:/wamp/www/theater/application/controllers/admin_purchase_material.php</file>
+        <file>file:/E:/wamp/www/theater/application/controllers/admin_products.php</file>
+        <file>file:/E:/wamp/www/theater/application/config/config.php</file>
+        <file>file:/E:/wamp/www/theater/application/views/admin/products/add.php</file>
+        <file>file:/E:/wamp/www/theater/application/models/products_model.php</file>
+        <file>file:/E:/wamp/www/theater/system/libraries/Upload.php</file>
+        <file>file:/E:/wamp/www/theater/application/libraries/functions.php</file>
+        <file>file:/E:/wamp/www/theater/application/views/admin/purchase_meterial/list.php</file>
+        <file>file:/E:/wamp/www/theater/application/models/common_model.php</file>
+        <file>file:/E:/wamp/www/theater/application/views/admin/products/edit.php</file>
+    </open-files>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/wamp/www/theater/application/controllers/admin_purchase_material.php</file>
             <file>file:/E:/wamp/www/theater/application/views/admin/report/list.php</file>
-            <file>file:/E:/wamp/www/theater/application/views/admin/purchase_report_today/list.php</file>
-            <file>file:/E:/wamp/www/theater/application/models/purchase_material_model.php</file>
-            <file>file:/E:/wamp/www/theater/application/controllers/admin_purchase_report.php</file>
+            <file>file:/E:/wamp/www/theater/application/views/admin/user/add.php</file>
+            <file>file:/E:/wamp/www/theater/application/views/admin/report/list_view.php</file>
             <file>file:/E:/wamp/www/theater/application/views/admin/dashboard_view.php</file>
-            <file>file:/E:/wamp/www/theater/application/models/inventory_model.php</file>
-            <file>file:/E:/wamp/www/theater/application/views/admin/includes/header.php</file>
+            <file>file:/E:/wamp/www/theater/application/models/report_model.php</file>
             <file>file:/E:/wamp/www/theater/application/controllers/admin_products.php</file>
-            <file>file:/E:/wamp/www/theater/application/views/admin/report_today/list.php</file>
+            <file>file:/E:/wamp/www/theater/application/controllers/admin_user.php</file>
             <file>file:/E:/wamp/www/theater/application/models/operator_model.php</file>
             <file>file:/E:/wamp/www/theater/application/models/products_model.php</file>
-            <file>file:/E:/wamp/www/theater/application/controllers/admin_purchase_report_today.php</file>
-            <file>file:/E:/wamp/www/theater/application/controllers/admin_inventory.php</file>
-            <file>file:/E:/wamp/www/theater/application/views/admin/products/ingr.php</file>
             <file>file:/E:/wamp/www/theater/application/controllers/admin_report.php</file>
-            <file>file:/E:/wamp/www/theater/application/controllers/admin_report_today.php</file>
             <file>file:/E:/wamp/www/theater/application/controllers/admin_operator.php</file>
-            <file>file:/E:/wamp/www/theater/application/views/admin/products/list.php</file>
-            <file>file:/E:/wamp/www/theater/application/views/admin/purchase_report/list.php</file>
+            <file>file:/E:/wamp/www/theater/application/views/admin/user/list.php</file>
             <file>file:/E:/wamp/www/theater/application/views/admin/operator_view.php</file>
-            <file>file:/E:/wamp/www/theater/application/views/admin/inventory/list.php</file>
             <file>file:/E:/wamp/www/theater/application/config/routes.php</file>
         </group>
     </open-files>

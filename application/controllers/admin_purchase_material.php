@@ -29,12 +29,7 @@ class Admin_purchase_material extends CI_Controller {
      * @return void
      */
     public function index() {
-
         $this->session->set_userdata('total_quantity');
-        //$data['category'] = $this->operator_model->get_category();
-//        $session_arr = $this->session->all_userdata();
-//        $data['operator_id'] = $session_arr['user_id'];
-        //$data['row_material'] = $this->material_model->get_row_matetial_item();
         $data['main_content'] = 'admin/purchase_meterial/list';
         $this->load->view('admin/includes/template', $data);
     }
@@ -52,23 +47,28 @@ class Admin_purchase_material extends CI_Controller {
 
         $products_id = $this->input->post('products_id');
         $product_detail = $this->material_model->get_row_matetial_item_by_id($products_id);
-        //$final_total = $this->input->post('final_total');
+
+
+//$final_total = $this->input->post('final_total');
         $item_list = "<div>";
         foreach ($product_detail as $detail) {
+            $uom = $detail['uom'];
+            $where = " AND uom_id={$uom}";
+            $uom_unit = $this->common_model->getFieldData('uom', 'uom', $where);
             $detail['qty'] = 1;
-            $detail['total'] = $detail['cost'];
-            $detail['uom'] = $detail['uom'];
+            $detail['total'] = $detail['price'];
+            $detail['uom'] = $uom_unit;
             $array = array($products_id => $detail);
             $data = $this->session->userdata('my_order');
             $data[$products_id] = $detail;
             $this->session->set_userdata('my_order', $data);
             ?>
-            <div href="javascript:void(0)" class='item_name'><?php echo $detail['name'] ?></div>
+            <div href="javascript:void(0)" class='item_name'><?php echo $detail['title'] ?></div>
             <a onclick="myAddClass(this)" href="javascript:void(0)" class='item_qua current qua_css'>1.00</a>
             <a onclick="myAddClass(this)" href="javascript:void(0)" class="append_qua abc"></a>
-            <div class="uom_tit" href="javascript:void(0)"><?php echo $detail['uom'] ?></div>
-            <div class="price_tit" href="javascript:void(0)"><?php echo $detail['cost'] ?></div>
-            <div href="javascript:void(0)" data-uom="<?php echo $detail['uom'] ?>" data-title='<?php echo $detail['name'] ?>' data-fix='<?php echo $detail['cost'] ?>' data-price='<?php echo $detail['cost'] ?>' class='item_price curr_price item_price_css'><?php echo $detail['cost'] ?></div>
+            <div class="uom_tit" href="javascript:void(0)"><?php echo $uom_unit ?></div>
+            <div class="price_tit" href="javascript:void(0)"><?php echo $detail['price'] ?></div>
+            <div href="javascript:void(0)" data-uom="<?php echo $uom_unit ?>" data-title='<?php echo $detail['title'] ?>' data-fix='<?php echo $detail['price'] ?>' data-price='<?php echo $detail['price'] ?>' class='item_price curr_price item_price_css'><?php echo $detail['price'] ?></div>
             <a onclick="removeItem(this)" class="cancel_btn" href="javascript:void(0)">X</a>
             <?php
         }
@@ -81,6 +81,7 @@ class Admin_purchase_material extends CI_Controller {
 
         $user_id = $this->session->userdata('user_id');
         $session_data = $this->session->userdata('my_order');
+
         $order = array(
             'total_amount' => $this->input->post('total_amount'),
             'datetime' => time(),
@@ -93,65 +94,34 @@ class Admin_purchase_material extends CI_Controller {
             foreach ($session_data as $value) {
                 $order_detail = array(
                     "item_row_material_purchase_id" => $last_insert_id,
-                    "item_row_material_id" => $value['item_row_material_id'],
-                    "name" => $value['name'],
-                    "cost" => $value['cost'],
+                    "products_id" => $value['products_id'],
+                    "name" => $value['title'],
+                    "cost" => $value['price'],
                     "qty" => $value['qty'],
                     "uom" => $value['uom'],
                     "total" => $value['total'],
                     'datetime' => time(),
                 );
-//                $row_material_detail = $this->material_model->get_row_matetial_item_by_id($value['item_row_material_id']);
-//                $initialQty = @$row_material_detail[0]['qty'];
-//                $updatedQty = $initialQty + $value['qty'];
-//                $update_row_material = array(
-//                    "qty" => $updatedQty,
-//                );
+                $row_material_detail = $this->material_model->get_row_matetial_item_by_id($value['products_id']);
+                $initialQty = @$row_material_detail[0]['qty'];
+                $updatedQty = $initialQty + $value['qty'];
+                $update_row_material = array(
+                    "qty" => $updatedQty,
+                );
                 $this->purchase_material_model->store_purchase_material_detail($order_detail);
-//                $this->material_model->update_material($update_row_material, $value['item_row_material_id']);
-                //mehul 31-08-2015
-                $inventory_data = $this->purchase_material_model->get_data_from_inventory($value['name']);
-                if (empty($inventory_data)) {
-                    $arr_insert = array(
-                        "name" => $value['name'],
-                        "qua" => $value['qty'],
-                        "uom" => $value['uom'],
-                        "total_cost" => $value['total'],
-                    );
-                    $this->purchase_material_model->addProductInventory($arr_insert);
-                } else {
-                    $where = "AND name='" . $value['name'] . "'";
-                    $qua_inv = $this->common_model->getFieldData('inventory', 'qua', $where);
-
-                    $where = "AND name='" . $value['name'] . "'";
-                    $new_total = $this->common_model->getFieldData('inventory', 'total_cost', $where);
-
-                    $new_qua = $qua_inv + $value['qty'];
-                    $new_total = $new_total + $value['total'];
-                    $arr = array(
-                        "qua" => $new_qua,
-                        "total_cost" => $new_total,
-                    );
-                    $this->purchase_material_model->update_inventory_by_purchase_material($value['name'], $arr);
-                }
-
-                //mehul 31-08-2015
+                $this->material_model->update_material($update_row_material, $value['products_id']);
             }
         }
     }
 
     public function get_all_row_material() {
-        $row_material = $this->material_model->get_row_matetial_item();
+        $product_meterial = $this->material_model->get_row_matetial_item();
         $html = "<table>";
-        foreach ($row_material as $row_material_item) {
-            echo "<tr><td><a class='item_" . $row_material_item['item_row_material_id'] . "' onclick='myid(this)' data-id=" . $row_material_item['item_row_material_id'] . " href='javascript:void(0)'><img class='product_img' src='" . site_url() . "assets/img/admin/ico/categoryico.png'></a></td><td style='float:left;'><a href='javascript:void(0)'>" . $row_material_item['name'] . "</a></td></tr>";
+        foreach ($product_meterial as $product_meterial_item) {
+            $product_images = $product_meterial_item['images'];
+            echo "<tr><td><a class='item_" . $product_meterial_item['products_id'] . "' onclick='myid(this)' data-id=" . $product_meterial_item['products_id'] . " href='javascript:void(0)'><img class='product_img' src='" . site_url() . "uploads/product/" . $product_images . "'></a></td><td style='float:left;'><a href='javascript:void(0)'>" . $product_meterial_item['title'] . "</a></td></tr>";
         }
         "</table>";
-    }
-
-    public function get_operator_data() {
-        $operator_user_id = $this->input->post('operator_id');
-        $total = $this->operator_model->get_operator_report($operator_user_id);
     }
 
     public function unset_session() {
@@ -172,24 +142,18 @@ class Admin_purchase_material extends CI_Controller {
         $uom = $this->input->post('uom');
         //$final_total = $this->input->post('final_total');
         $arr = array(
-            "item_row_material_id" => $product_id,
-            "name" => $product_name,
-            "cost" => $fix_price,
+            "products_id" => $product_id,
+            "title" => $product_name,
+            "price" => $fix_price,
             "qty" => $product_quantity,
             "uom" => $uom,
             "total" => $total
         );
-//        echo "<pre>";
-//        print_r($arr);
-//        exit;
+
         $array = array($product_id => $arr);
         $data = $this->session->userdata('my_order');
         $data[$product_id] = $arr;
         $this->session->set_userdata('my_order', $data);
-//        echo "<pre>";
-//        print_r($this->session->all_userdata());
-//        echo "</pre>";
-//        exit;
     }
 
     public function delete_session() {

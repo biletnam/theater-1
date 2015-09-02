@@ -89,6 +89,7 @@
         });
         //$('.cancel_btn').on('keyup', function(e) {
         $('body').on('keyup', '.cancel_btn', function(e) {
+
             var item_name = $(this).siblings('.item_name').text();
             var fix_price = $(this).siblings('.price_tit').text();
             var product_id = $(this).parent().attr('data-id');
@@ -97,11 +98,7 @@
             $('.append_qua').hide();
             $('.item_qua').show();
             //var num = $('.show').text();
-            if ($('#mytxt').val()) {
-                var num = $('#mytxt').val();
-            } else {
-                var num = $('#mytxt').attr('data-qua');
-            }
+            var num = $('#mytxt').attr('data-qua');
             var total_price = num * fix_price;
             $.ajax({
                 url: base_url + 'admin_operator/update_session',
@@ -114,7 +111,7 @@
             });
             var item_price = $('.curr_price').attr('data-fix');
             var qua_num = $('#mytxt').val();
-            if (qua_num == "" || qua_num == ".") {
+            if (qua_num == "") {
                 qua_num = $('#mytxt').attr('data-qua');
             }
             $('#mytxt').replaceWith('<a class="item_qua qua_css" href="javascript:void(0)" onclick="myAddClass(this)">' + qua_num + '</a>');
@@ -245,8 +242,6 @@ if (!empty($data)) {
     }
 
     function removeItem(e) {
-        $('.btn_count').attr('disabled', true);
-        $('.btn_count_right').attr('disabled', true);
         total = $('.total_display').text();
         remove_price = $(e).siblings('.item_price').text();
         ans = total - remove_price;
@@ -273,7 +268,7 @@ if (!empty($data)) {
 
     function myAddClass(e) {
         if ($('#mytxt').attr('data-qua')) {
-            if ($('#mytxt').val() == "" || $('#mytxt').val() == ".") {
+            if ($('#mytxt').val() == "") {
                 var new_qua = $('#mytxt').attr('data-qua');
             } else {
                 var new_qua = $('#mytxt').val();
@@ -353,11 +348,10 @@ if (!empty($data)) {
     var arr_data = [];
     var arr_qua = [];
     function myid(e) {
-        $('.btn_count_right').attr('disabled', true);
-        $('.btn_count').attr('disabled', true);
+
         //mehul 21-08-2015
         if ($('#mytxt').attr('data-qua')) {
-            if ($('#mytxt').val() === "" || $('#mytxt').val() === ".") {
+            if ($('#mytxt').val() == "") {
                 var new_qua = $('#mytxt').attr('data-qua');
             } else {
                 var new_qua = $('#mytxt').val();
@@ -460,7 +454,6 @@ if (!empty($data)) {
             $('.item_price').removeClass('curr_price');
             $('.total_display').text();
             var product_id = $(e).attr('data-id');
-            var product_count = $('#' + id_name).children('.item_qua').text();
             var final_total = $('.total_display').text();
             comm = "";
             $.ajax({
@@ -513,6 +506,7 @@ if (!empty($data)) {
     }
 
     function mynumber(e) {
+
         $('.curr_price').parent().siblings().children().removeClass('abc');
         $('.curr_price').parent().siblings().children().find('.abc').hide();
         var item_quantity = $(e).val();
@@ -662,14 +656,14 @@ if (!empty($data)) {
     .item_name{ width: 40%; float: left; border-bottom: 1px solid #ccc;}
     .item_qua{ width: 20%; float: left; border-bottom: 1px solid #ccc; text-align: center;}
     .item_price{ width: 20%; float: left; border-bottom: 1px solid #ccc; text-align: center;}
-    .cal_btn{ width: 60%; float: left; margin-left: 15px; }
-    .btn_count{border-radius: 0; margin-left: 2px; padding: 21px 27px; font-size: 21px;}
+    .cal_btn{ width: 52%; float: left;}
+    .btn_count{border-radius: 0; margin-left: 2px; padding: 19px 24px; font-size: 21px;}
     .btn_count:hover{ background-color: #5579b7;}
     .btn_right{ width: 20%; float: left;}
-    .btn_count_right{ width: 100% !important; border-radius: 0; margin-left: 5px; padding: 21px 0px; font-size: 21px;}
+    .btn_count_right{ width: 100% !important; border-radius: 0; margin-left: 5px; padding: 19px 24px; font-size: 21px;}
     .btn_count_right:hover{ background-color: #5579b7;}
-    .show, .total_insert{ display: none; }
-    .tot_quantity{ display: none; }
+    .show, .total_insert{ display: none;}
+    .tot_quantity{ display: none;}
     .order_button_class{ width: 50%; float: left; margin-left: 10px; }
     .order_button{ padding: 10px 20px; margin-top: 5px; }
     .product_img{ height: 100px; width: 100px;}
@@ -765,7 +759,6 @@ if (!empty($data)) {
             <div class="grand_total"></div>
             <?php
             $data = $this->session->userdata('my_order');
-
             if (!empty($data)) {
                 foreach ($data as $data_session) {
                     ?>
@@ -801,8 +794,8 @@ if (!empty($data)) {
             </div>
             <div class="order_button_class">
                 <input class="btn_clear_all" onclick="okClear(this)" type="button" value="CLR">
-                <input id="print_bill" type="button" value="Order" onclick = "document.getElementById('light').style.display = 'block';
-                        document.getElementById('fade').style.display = 'block'">
+                <input id="print_bill" type="button" value="Print" onclick = "document.getElementById('light').style.display = 'block';
+        document.getElementById('fade').style.display = 'block'">
 
             </div>
             <div class="discount">
@@ -816,7 +809,7 @@ if (!empty($data)) {
                     <div class="bill_title">Billing</div>
                     <div class="bill_close">
                         <a href = "javascript:void(0)" onclick = "document.getElementById('light').style.display = 'none';
-                                document.getElementById('fade').style.display = 'none'">Close</a>
+        document.getElementById('fade').style.display = 'none'">Close</a>
                     </div>
                 </div>
 
@@ -827,7 +820,7 @@ if (!empty($data)) {
                 <div style="width: 100%; float: left;">
                     <div class="bill_close">
                         <a href = "javascript:void(0)" onclick = "document.getElementById('pop_up').style.display = 'none';
-                                document.getElementById('fade').style.display = 'none'">Close</a>
+        document.getElementById('fade').style.display = 'none'">Close</a>
                     </div>
                 </div>
             </div>
@@ -851,7 +844,7 @@ if (!empty($data)) {
 
                 <?php //foreach ($category as $category_data) {   ?>
 <!--                <li style="height:20px"><a href="javascript:void(0);" data-id="<?php echo $category_data['category_id'] ?>" onclick="myproduct(this)" ><?php echo $category_data['category_name'] ?></a></li>-->
-                <?php //}    ?>
+                <?php //}   ?>
 
             </ul>
         </div>

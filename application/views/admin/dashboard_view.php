@@ -44,13 +44,20 @@
     <div class="quickLink">
         <a href="<?php echo base_url(); ?>admin/material" title="material">
             <img alt="Add material" src="<?php echo base_url(); ?>/assets/img/admin/ico/categoryico.png" />
-            <span>Row Material</span>
+            <span>Raw Material</span>
         </a>
     </div>
+
     <div class="quickLink">
         <a href="<?php echo base_url(); ?>admin/purchase_material" title="Purchase Material">
             <img alt="Purchase Material" src="<?php echo base_url(); ?>/assets/img/admin/ico/categoryico.png" />
             <span>Purchase Material</span>
+        </a>
+    </div>
+    <div class="quickLink">
+        <a href="<?php echo base_url(); ?>admin/uom" title="Unit of Measurement">
+            <img alt="Unit of Measurement" src="<?php echo base_url(); ?>/assets/img/admin/ico/categoryico.png" />
+            <span>Unit of Measurement</span>
         </a>
     </div>
     <div class="quickLink">
@@ -60,27 +67,21 @@
         </a>
     </div>
 
-    <!--    <div class="quickLink">
-            <a href="<?php echo base_url(); ?>admin/report" title="report">
-                <img alt="report" src="<?php echo base_url(); ?>/assets/img/admin/ico/categoryico.png" />
-                <span>Report</span>
-            </a>
-        </div>-->
     <div class="quickLink">
-        <a href="<?php echo base_url(); ?>admin/report_list" title="report_list">
-            <img alt="report_list" src="<?php echo base_url(); ?>/assets/img/admin/ico/categoryico.png" />
+        <a href="<?php echo base_url(); ?>admin/report" title="report">
+            <img alt="report" src="<?php echo base_url(); ?>/assets/img/admin/ico/categoryico.png" />
+            <span>Report</span>
+        </a>
+    </div>
+    <div class="quickLink">
+        <a href="<?php echo base_url(); ?>admin/report_list" title="report">
+            <img alt="report" src="<?php echo base_url(); ?>/assets/img/admin/ico/categoryico.png" />
             <span>Report List</span>
         </a>
     </div>
 
-    <div class="quickLink">
-        <a href="<?php echo base_url(); ?>admin/inventory" title="inventory">
-            <img alt="inventory" src="<?php echo base_url(); ?>/assets/img/admin/ico/categoryico.png" />
-            <span>Inventory</span>
-        </a>
-    </div>
-
 </div>
+
 
 <?php //echo '<pre>';print_r($this->session->userdata);?>
 

@@ -1,12 +1,12 @@
 <?php
 
 class Admin_products extends CI_Controller {
-
     /**
      * name of the folder responsible for the views
      * which are manipulated by this controller
      * @constant string
      */
+
     const VIEW_FOLDER = 'admin/products';
 
     /**
@@ -36,7 +36,6 @@ class Admin_products extends CI_Controller {
      * @return void
      */
     public function index() {
-
 //all the products sent by the view
         $search_string = $this->input->post('search_string');
         $order = $this->input->post('order');
@@ -159,39 +158,83 @@ class Admin_products extends CI_Controller {
     }
 
     public function add() {
+        $data['product_type_opt'] = $this->config->item('product_type_flag');
         $data['subcategory_opt'] = array("" => "Select");
         $data['subcategory'] = "";
         $data['category'] = "";
         $where = " AND parent_id= '0' ";
+        $data['uom_opt'] = $this->common_model->getDDArray('uom', 'uom_id', 'uom');
         $data['main_category_opt'] = $this->common_model->getDDArray('category', 'category_id', 'category_name', $where);
-
-//$data['country_opt'] = $this->common_model->getDDArray('country', 'country_id', 'country_name');
 //if save button was clicked, get the data sent via post
         if ($this->input->server('REQUEST_METHOD') === 'POST') {
-//echo "<pre>"; print_r($_POST); die;
-//form validation
-//$this->form_validation->set_rules('country', 'country', 'required');
             $this->form_validation->set_rules('category_id', 'Main Category', 'required');
             $this->form_validation->set_rules('title', 'Title', 'required|is_unique[products.title]');
+            $this->form_validation->set_rules('product_type', 'Product Type', 'required');
+            $this->form_validation->set_rules('uom', 'Unit of Measurement', 'required');
+            $this->form_validation->set_rules('qty', 'Quantity', 'required');
             $this->form_validation->set_rules('price', 'Price', 'required');
-            $this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">&#215;</a><strong>', '</strong></div>');
-//if the form has passed through the validation
-            if ($this->form_validation->run()) {
+            //if the form has passed through the validation
 
-                $path = './uploads/images';
+            $chckedImage = $_FILES['images']['name'];
+            if (empty($chckedImage)) {
+                $this->form_validation->set_rules('images', 'Product Image', 'required');
+            }
+            $this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">&#215;</a><strong>', '</strong></div>');
+
+            if ($this->form_validation->run()) {
+                $path = './uploads/product';
                 $this->load->library('upload');
                 $this->upload->initialize(array(
                     "upload_path" => $path,
                     "allowed_types" => "*"
                 ));
-                if ($this->upload->do_multi_upload("images")) {
-                    $file_name = $this->upload->get_multi_upload_data();
-                    foreach ($file_name as $value) {
-                        $images[] = $value['file_name'];
+                if (!empty($chckedImage)) {
+                    $data = $this->functions->do_upload_one('images', './uploads/product');
+
+                    if (isset($data['upload_data'])) {
+                        $file_name1 = $data['upload_data']['file_name'];
+                    } else {
+                        $file_name1 = "";
                     }
+                    $_POST['images'] = $file_name1;
                 }
-                $_POST['images'] = implode(',', $images);
-                if ($this->products_model->addPosts()) {
+                $uid = Access_level::session_user_id();
+                $category_id = $this->input->post('category_id');
+                $qty = $this->input->post('qty');
+                $title = $this->input->post('title');
+                $price = $this->input->post('price');
+                $images = $this->input->post('images');
+                $description = $this->input->post('description');
+                $status = $this->input->post('status');
+                $uom = $this->input->post('uom');
+                $product_type = $this->input->post('product_type');
+                $where = " AND uom_id={$uom}";
+                $uom_unit = $this->common_model->getFieldData('uom', 'uom', $where);
+                if ($uom_unit == "KG" || $uom_unit == "LTR") {
+                    $convertedQty = Access_level::convertToMlOrGm($qty);
+                } else {
+                    $convertedQty = $qty;
+                }
+                $is_group = $this->input->post('is_group');
+                if (!empty($is_group)) {
+                    $is_combo = $is_group;
+                } else {
+                    $is_combo = "NO";
+                }
+                $data_to_store = array(
+                    "uid" => $uid,
+                    "category_id" => $category_id,
+                    "title" => $title,
+                    "images" => $images,
+                    "description" => $description,
+                    "price" => $price,
+                    "qty" => $convertedQty,
+                    "is_group" => $is_combo,
+                    "status" => $status,
+                    "product_type" => $product_type,
+                    "uom" => $uom
+                );
+                if ($this->products_model->addPosts($data_to_store)) {
                     $data['flash_message'] = TRUE;
                     $this->session->set_flashdata('flash_message', 'add');
                     redirect('admin/products/');
@@ -210,7 +253,6 @@ class Admin_products extends CI_Controller {
      * @return void
      */
     public function update() {
-//echo "<pre>"; print_r($_POST); die;
         $id = $this->uri->segment(4);
         $cat_id = $this->uri->segment(5);
 //if save button was clicked, get the data sent via post
@@ -218,29 +260,34 @@ class Admin_products extends CI_Controller {
 
             $this->form_validation->set_rules('category_id', 'Category', 'required');
             $this->form_validation->set_rules('title', 'Title', 'required|edit_unique[products.title.' . $id . ']');
+            $this->form_validation->set_rules('product_type', 'Product Type', 'required');
+            $this->form_validation->set_rules('uom', 'Unit of Measurement', 'required');
+            $this->form_validation->set_rules('qty', 'Quantity', 'required');
+            $this->form_validation->set_rules('price', 'Price', 'required');
+
+            $chckedImage = $_FILES['images']['name'];
+
+//            if (empty($chckedImage)) {
+//                $this->form_validation->set_rules('images', 'Product Image', 'required');
+//            }
             $this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">&#215;</a><strong>', '</strong></div>');
-
             if ($this->form_validation->run()) {
-
-
+                $path = './uploads/product';
                 $this->load->library('upload');
-                $path = './uploads/images';
-
                 $this->upload->initialize(array(
                     "upload_path" => $path,
                     "allowed_types" => "*"
                 ));
-                if ($this->upload->do_multi_upload("images")) {
-
-                    $file_name = $this->upload->get_multi_upload_data();
-                    foreach ($file_name as $value) {
-                        $images[] = $value['file_name'];
-                    }
-
-                    $_POST['images'] = implode(',', $images);
+                if (!empty($chckedImage)) {
+                    $data = $this->functions->do_upload_one('images', './uploads/product');
+                    $file_name = $data['upload_data']['file_name'];
+                    $_POST['images'] = $file_name;
+                    @unlink("./uploads/product/" . $this->input->post('old_image'));
                 } else {
-                    $_POST['images'] = $this->input->post('old_image');
+                    $file_name = $this->input->post('old_image');
+                    $_POST['images'] = $file_name;
                 }
+
 
 //if the insert has returned true then we show the flash message
                 $redirect_url = $this->input->post('redirect_url');
@@ -250,7 +297,45 @@ class Admin_products extends CI_Controller {
                     }
                 }
 
-                if ($this->products_model->update_products() == TRUE) {
+                $uid = Access_level::session_user_id();
+                $products_id = $this->input->post('products_id');
+                $category_id = $this->input->post('category_id');
+                $qty = $this->input->post('qty');
+                $title = $this->input->post('title');
+                $price = $this->input->post('price');
+                $images = $this->input->post('images');
+                $description = $this->input->post('description');
+                $status = $this->input->post('status');
+
+                $uom = $this->input->post('uom');
+                $product_type = $this->input->post('product_type');
+                $where = " AND uom_id={$uom}";
+                $uom_unit = $this->common_model->getFieldData('uom', 'uom', $where);
+                if ($uom_unit == "KG" || $uom_unit == "LTR") {
+                    $convertedQty = Access_level::convertToMlOrGm($qty);
+                } else {
+                    $convertedQty = $qty;
+                }
+                $is_group = $this->input->post('is_group');
+                if (!empty($is_group)) {
+                    $is_combo = $is_group;
+                } else {
+                    $is_combo = "NO";
+                }
+                $data_to_store = array(
+                    "uid" => $uid,
+                    "category_id" => $category_id,
+                    "title" => $title,
+                    "images" => $images,
+                    "description" => $description,
+                    "price" => $price,
+                    "qty" => $convertedQty,
+                    "is_group" => $is_combo,
+                    "status" => $status,
+                    "product_type" => $product_type,
+                    "uom" => $uom
+                );
+                if ($this->products_model->update_products($data_to_store, $products_id) == TRUE) {
                     $this->session->set_flashdata('flash_message', 'updated');
                 } else {
                     $this->session->set_flashdata('flash_message', 'not_updated');
@@ -260,6 +345,8 @@ class Admin_products extends CI_Controller {
                 redirect($redirect_url);
             }//validation run
         }
+        $data['product_type_opt'] = $this->config->item('product_type_flag');
+        $data['uom_opt'] = $this->common_model->getDDArray('uom', 'uom_id', 'uom');
 
 //if we are updating, and the data did not pass trough the validation
 //the code below wel reload the current data

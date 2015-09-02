@@ -112,6 +112,15 @@ $route['admin/purchase_material/update/(:any)'] = 'admin_purchase_material/updat
 $route['admin/purchase_material/delete/(:any)'] = 'admin_purchase_material/delete/$1';
 $route['admin/purchase_material/(:any)'] = 'admin_purchase_material/index/$1'; //$1 = page number
 
+
+$route['admin/uom'] = 'admin_uom/index';
+$route['admin/uom/add'] = 'admin_uom/add';
+$route['admin/uom/update'] = 'admin_uom/update';
+$route['admin/uom/update/(:any)'] = 'admin_uom/update/$1';
+$route['admin/uom/delete/(:any)'] = 'admin_uom/delete/$1';
+$route['admin/uom/(:any)'] = 'admin_uom/index/$1';
+
+
 $route['admin/operator_data'] = 'admin_operator_data/index';
 $route['admin/operator_data/(:any)'] = 'admin_operator_data/index/$1';
 
@@ -138,7 +147,7 @@ $route['admin/report_list/(:any)'] = 'admin_report_list/index/$1';
 $route['admin/report_today'] = 'admin_report_today/index';
 $route['admin/report_today/search'] = 'admin_report_today/search';
 $route['admin/report_today/(:any)'] = 'admin_report_today/index/$1';
-$route['admin/report_today/exportcsv'] = 'admin_report_today/exportcsv';
+
 
 $route['admin/purchase_report'] = 'admin_purchase_report/index';
 $route['admin/purchase_report/search'] = 'admin_purchase_report/search';
@@ -149,12 +158,6 @@ $route['admin/purchase_report/list_view'] = 'admin_purchase_report/list_view';
 $route['admin/purchase_report_today'] = 'admin_purchase_report_today/index';
 $route['admin/purchase_report_today/search'] = 'admin_purchase_report_today/search';
 $route['admin/purchase_report_today/(:any)'] = 'admin_purchase_report_today/index/$1';
-$route['admin/purchase_report_today/exportcsv'] = 'admin_purchase_report_today/exportcsv';
-
-$route['admin/inventory'] = 'admin_inventory/index';
-$route['admin/inventory/update'] = 'admin_inventory/update';
-$route['admin/inventory/update/(:any)'] = 'admin_inventory/update/$1';
-$route['admin/inventory/delete/(:any)'] = 'admin_inventory/delete/$1';
 
 $route['admin/dashboard'] = 'dashboard/index';
 /*/

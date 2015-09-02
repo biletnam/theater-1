@@ -101,16 +101,8 @@ class products_model extends CI_Model {
         return $db_cat_rs[0]['path'];
     }
 
-    function addPosts() {
-        $insertArr['uid '] = Access_level::session_user_id();
-        $insertArr['category_id'] = $_POST['category_id'];
-        $insertArr['title'] = $_POST['title'];
-        $insertArr['price'] = $_POST['price'];
-        $insertArr['images'] = $_POST['images'];
-        $insertArr['description'] = $_POST['description'];
-        $insertArr['status'] = $_POST['status'];
-        $insertArr['is_group'] = isset($_POST['is_group']) ? $_POST['is_group'] : "";
-        $insert = $this->db->insert('products', $insertArr);
+    function addPosts($data) {
+        $insert = $this->db->insert('products', $data);
         return $insert;
     }
 
@@ -119,18 +111,9 @@ class products_model extends CI_Model {
      * @param array $data - associative array with data to store
      * @return boolean
      */
-    function update_products() {
-
-        $insertArr['category_id'] = $_POST['category_id'];
-        $insertArr['title'] = $_POST['title'];
-        $insertArr['price'] = $_POST['price'];
-        $insertArr['images'] = $_POST['images'];
-        $insertArr['description'] = $_POST['description'];
-        $insertArr['status'] = $_POST['status'];
-        $insertArr['is_group '] = $_POST['is_group'];
-
-        $where['products_id'] = $_POST['products_id'];
-        $this->db->update('products', $insertArr, $where);
+    function update_products($data, $id) {
+        $this->db->where('products_id', $id);
+        $this->db->update('products', $data);
         $report = array();
         $report['error'] = $this->db->_error_number();
         $report['message'] = $this->db->_error_message();
