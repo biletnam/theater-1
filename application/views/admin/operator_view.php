@@ -814,15 +814,15 @@ if (!empty($data)) {
                 <input class="btn_count_right" disabled onclick="delQua(this)" type="button" value="DEL">
                 <input class="btn_count_right" disabled onclick="mynumber(this)" type="button" value="0">
             </div>
-            <div class="order_button_class">
-                <input class="btn_clear_all" onclick="okClear(this)" type="button" value="CLR">
-                <input id="print_bill" type="button" value="Order" onclick = "document.getElementById('light').style.display = 'block';
-                        document.getElementById('fade').style.display = 'block'">
-
-            </div>
             <div class="discount">
                 Discount:<input class="disc_input" type="text" name="discount">%
             </div>
+            <div class="order_button_class">
+                <input id="print_bill" type="button" value="Order" onclick = "document.getElementById('light').style.display = 'block';
+                        document.getElementById('fade').style.display = 'block'">
+                <input class="btn_clear_all" onclick="okClear(this)" type="button" value="CLR">
+            </div>
+
             <div class="print_bill">
                 <input class="is_print" type="checkbox" name="check_bill"><span>Print Bill</span>
             </div>
