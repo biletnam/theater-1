@@ -610,7 +610,22 @@ if (!empty($data)) {
                 data: {total_amount: total_amount, time_date: time_date, discount: discount, payment_mode: payment_mode, quantity: quantity, grand_amount: grand_amount},
                 success: function(data) {
                     if ($('.is_print').is(':checked')) {
-                        window.print('#light');
+                        //window.print('#light');
+                        $('.title_product,.item_name').css({"width": "40%", "float": "left"});
+                        $('.title_quantity,.qua_css').css({"width": "20%", "float": "left"});
+                        $('.title_price,.price_tit').css({"width": "12%", "float": "left"});
+                        $('.title_subtotal,.item_price_css').css({"width": "20%", "float": "left"});
+
+                        var divContents = $("#light").html();
+                        var printWindow = window.open('', '', 'height=400,width=800');
+                        printWindow.document.write('<html><head><title>DIV Contents</title>');
+                        printWindow.document.write('</head><body >');
+                        printWindow.document.write(divContents);
+                        printWindow.document.write('</body></html>');
+                        printWindow.document.close();
+                        printWindow.print();
+
+
                     }
                     $('#light').css("display", "none");
                     $('#fade').css("display", "none");
@@ -823,14 +838,14 @@ if (!empty($data)) {
                 <input id="order_button" class="order_button" onclick="orderPlace(this)" type="button" value="Place Order">
             </div>
 
-            <div id="pop_up" class="white_content">
-                <div style="width: 100%; float: left;">
-                    <div class="bill_close">
-                        <a href = "javascript:void(0)" onclick = "document.getElementById('pop_up').style.display = 'none';
-                                document.getElementById('fade').style.display = 'none'">Close</a>
-                    </div>
-                </div>
-            </div>
+            <!--            <div id="pop_up" class="white_content">
+                            <div style="width: 100%; float: left;">
+                                <div class="bill_close">
+                                    <a href = "javascript:void(0)" onclick = "document.getElementById('pop_up').style.display = 'none';
+                                            document.getElementById('fade').style.display = 'none'">Close</a>
+                                </div>
+                            </div>
+                        </div>-->
 
 
 
