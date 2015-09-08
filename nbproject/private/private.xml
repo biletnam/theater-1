@@ -4,29 +4,9 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/E:/wamp/www/theater/application/controllers/admin_purchase_material.php</file>
-            <file>file:/E:/wamp/www/theater/application/models/purchase_material_model.php</file>
-            <file>file:/E:/wamp/www/theater/application/views/admin/report/list_view.php</file>
-            <file>file:/E:/wamp/www/theater/application/views/admin/dashboard_view.php</file>
+            <file>file:/E:/wamp/www/theater/assets/css/admin/bootstrap.css</file>
             <file>file:/E:/wamp/www/theater/application/views/admin/purchase_meterial/list.php</file>
-            <file>file:/E:/wamp/www/theater/application/controllers/admin_operator_list.php</file>
-            <file>file:/E:/wamp/www/theater/application/views/admin/includes/header.php</file>
-            <file>file:/E:/wamp/www/theater/application/models/operator_data_model.php</file>
-            <file>file:/E:/wamp/www/theater/application/models/report_model.php</file>
-            <file>file:/E:/wamp/www/theater/application/views/admin/products/add.php</file>
-            <file>file:/E:/wamp/www/theater/application/controllers/admin_products.php</file>
-            <file>file:/E:/wamp/www/theater/application/models/operator_model.php</file>
-            <file>file:/E:/wamp/www/theater/application/models/material_model.php</file>
-            <file>file:/E:/wamp/www/theater/application/models/products_model.php</file>
-            <file>file:/E:/wamp/www/theater/application/views/admin/products/ingr.php</file>
-            <file>file:/E:/wamp/www/theater/application/controllers/admin_report_today.php</file>
-            <file>file:/E:/wamp/www/theater/application/controllers/admin_report.php</file>
-            <file>file:/E:/wamp/www/theater/application/controllers/admin_operator_data.php</file>
-            <file>file:/E:/wamp/www/theater/application/controllers/admin_operator.php</file>
-            <file>file:/E:/wamp/www/theater/application/libraries/access_level.php</file>
-            <file>file:/E:/wamp/www/theater/application/views/admin/category/list.php</file>
-            <file>file:/E:/wamp/www/theater/application/config/routes.php</file>
-            <file>file:/E:/wamp/www/theater/application/views/admin/operator_view.php</file>
-            <file>file:/E:/wamp/www/theater/application/views/admin/operator_data/list.php</file>
+            <file>file:/E:/wamp/www/theater/application/config/constants.php</file>
         </group>
     </open-files>
 </project-private>

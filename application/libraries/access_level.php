@@ -84,11 +84,11 @@ class Access_level {
         $user_type = self::$CI->session->userdata('user_type');
 
         if ($user_type == 'super_admin') {
-            $modules = array('company', 'user', 'products', 'material', 'category', 'operator_list', 'operator_data', 'purchase_material', 'report_list', 'purchase_report', 'purchase_report_today', 'uom', 'inventory');
+            $modules = array('company', 'user', 'products', 'material', 'category', 'operator_list', 'operator_data', 'purchase_material', 'report_list', 'purchase_report', 'purchase_report_today', 'uom', 'inventory', 'purchase_details_data');
         }
         //2 admin
         if ($user_type == 'admin') {
-            $modules = array('user', 'products', 'operator_list', 'inventory');
+            $modules = array('user', 'products', 'operator_list', 'inventory', 'purchase_details_data');
         }
         //3 operator
         if ($user_type == 'operator') {

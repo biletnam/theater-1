@@ -6,8 +6,8 @@
 <script src="<?php echo base_url(); ?>assets/js/lib/jquery.jcarousellite.min.js"></script>
 
 <script>
-    $(document).ready(function() {
-        $('body').on('keyup', '.item_qua', function(e) {
+    $(document).ready(function () {
+        $('body').on('keyup', '.item_qua', function (e) {
 //mehul 21-8-2015
             if ($('#mytxt').attr('data-qua')) {
                 if ($('#mytxt').val() == "") {
@@ -18,21 +18,23 @@
                 var fix_price = $('.curr_price').attr('data-fix');
                 var product_id = $('.curr_price').parents().attr('data-id');
                 var product_name = $('#mytxt').siblings('.item_name').text();
-                var count = new_qua;//$('#mytxt').attr('data-qua');
+                var count = new_qua; //$('#mytxt').attr('data-qua');
                 var total_price = fix_price * count;
                 $('.curr_price').text(total_price);
+                var uom = $('.curr_price').attr('data-uom');
+                var uom_id = $('.curr_price').attr('data-uom-id');
                 $.ajax({
-                    url: base_url + 'admin_operator/update_session',
+                    url: base_url + 'admin_purchase_material/update_session',
                     type: "POST",
-                    data: {product_id: product_id, add_count: count, total_product_price: total_price, product_name: product_name, fix_price: fix_price},
-                    success: function(data) {
+                    data: {product_id: product_id, add_count: count, total_product_price: total_price, product_name: product_name, fix_price: fix_price, uom: uom, uom_id: uom_id},
+                    success: function (data) {
 
                     },
-                    error: function() {
+                    error: function () {
                     }
                 });
                 var sum = 0.0;
-                $('.item_qua').each(function()
+                $('.item_qua').each(function ()
                 {
                     checkValQty = isCheckedIntOrFloat($(this).text());
 //                        calcQty = checkValQty.toFixed(2);
@@ -43,7 +45,7 @@
                 $('.total_display').text(sum);
                 //product quantity count
                 var sum_qua = 0;
-                $('.item_qua').each(function()
+                $('.item_qua').each(function ()
                 {
                     checkValQty = isCheckedIntOrFloat($(this).text());
 //                        calcQty = checkValQty.toFixed(2);
@@ -74,8 +76,7 @@
             $('.cancel_btn').removeClass('curr_price');
             $('.append_qua').removeClass('curr_price');
             $('.uom_tit').removeClass('curr_price');
-
-            $('.item_qua').each(function()
+            $('.item_qua').each(function ()
             {
                 checkValQty = isCheckedIntOrFloat($(this).text());
 //                        calcQty = checkValQty.toFixed(2);
@@ -87,12 +88,12 @@
             $('.tot_quantity').text(sum_qua);
             $('.item_qua').show();
         });
-        $('body').on('keyup', '.cancel_btn', function(e) {
+        $('body').on('keyup', '.cancel_btn', function (e) {
             var item_name = $(this).siblings('.item_name').text();
             var fix_price = $(this).siblings('.price_tit').text();
             var product_id = $(this).parent().attr('data-id');
-            var uom = $(this).siblings('.uom_tit').text();
-
+            var uom = $(this).siblings('.uom_tit').children('#uom').find("option:selected").text();
+            var uom_id = $(this).siblings('.uom_tit').children('#uom').find("option:selected").val();
             //var total_price = $(this).siblings('.item_price').text();
             //alert(total_price);
             $('.abc').empty();
@@ -106,19 +107,37 @@
             } else {
                 var num1 = $('#mytxt').attr('data-qua');
             }
+
             //end changes
             //var num1 = $('#mytxt').val();
             var checkVal = isCheckedIntOrFloat(num1);
-            var num = checkVal.toFixed(2);
+            //alert(checkVal);
+            var convertedQty;
+            if (uom === "GM" || uom === "ML") {
+                convertedQty = checkVal / 1000;
+                var compareVal;
+                compareVal = Math.round(convertedQty);
+                if (compareVal <= 0) {
+                    alert("Please Put Correct GM Qunatity");
+                    location.reload();
+                    return;
+                }
+            } else {
+                convertedQty = checkVal;
+            }
+
+            var num = convertedQty.toFixed(2);
             var total_price1 = num * fix_price;
-            var total_price = isCheckedIntOrFloat(total_price1);
+            var convertedPrice1 = total_price1.toFixed(2);
+            var total_price = isCheckedIntOrFloat(convertedPrice1);
+            //alert(total_price);
             $.ajax({
                 url: base_url + 'admin_purchase_material/update_session',
                 type: "POST",
-                data: {product_id: product_id, add_count: num, total_product_price: total_price, product_name: item_name, fix_price: fix_price, uom: uom},
-                success: function(data) {
+                data: {product_id: product_id, add_count: checkVal, total_product_price: total_price, product_name: item_name, fix_price: fix_price, uom: uom, uom_id: uom_id},
+                success: function (data) {
                 },
-                error: function() {
+                error: function () {
                 }
             });
             var item_price = $('.curr_price').attr('data-fix');
@@ -135,47 +154,27 @@
             //$('.abc').text(qua_num);
             $('.btn_count').attr('disabled', true);
             $('.btn_count_right').attr('disabled', true);
-            var item_total_price1 = qua_num * item_price;
+            var item_total_price1 = num * item_price;
+            //alert(item_total_price1);
             var item_total_price = item_total_price1.toFixed(2);
             $('.current').text(num);
             $('.curr_price').text(item_total_price);
             var sum = 0.0;
-            $('.item_price').each(function()
+            $('.item_price').each(function ()
             {
                 sum += parseFloat($(this).text());
             });
-
-            //var discount = $('.disc_input').val();
-            //var disc_price = discount * sum / 100;
-            //var grand_sum = sum - disc_price;
-            //alert(grand_sum);
             var sum1 = sum.toFixed(2);
-            // alert(sum1);
             $('.total_display').text(sum1);
-            //product quantity count
             var sum_qua = 0;
-            $('.item_qua').each(function()
+            $('.item_qua').each(function ()
             {
                 checkValQty = isCheckedIntOrFloat($(this).text());
-//                        calcQty = checkValQty.toFixed(2);
-                //alert(calcQty);
                 sum_qua += checkValQty;
-                // sum_qua += $(this).text();
             });
             $('.tot_quantity').text(sum_qua);
-            //alert(sum_qua);
-            //text box add
-//mehulp
-            //var qua_num = $('#mytxt').val();
-//            $('#mytxt').replaceWith('<a class="item_qua" href="javascript:void(0)" onclick="myAddClass(this)">' + qua_num + '</a>');
-//            $('.abc').text(qua_num);
-
-//            $('#mytxt').replaceWith('<a class="item_qua" href="javascript:void(0)" onclick="myAddClass(this)">' + $('.show').text() + '</a>');
-//            $('.abc').text($('.show').text());
         });
-        $('body').on('keyup', '#mytxt', function(e) {
-            console.log('third');
-
+        $('body').on('keyup', '#mytxt', function (e) {
             var keycode = (e.keyCode ? e.keyCode : e.which);
             if (keycode == '13') {
                 $('.abc').empty();
@@ -187,88 +186,42 @@
                 $('.current').text(num);
                 $('.curr_price').text(item_total_price);
                 var sum = 0.0;
-                $('.item_price').each(function()
+                $('.item_price').each(function ()
                 {
                     sum += parseFloat($(this).text());
                 });
-                //var discount = $('.disc_input').val();
-                //var disc_price = discount * sum / 100;
-                //var grand_sum = sum - disc_price;
-                //alert(grand_sum);
-
-                //alert(sum);
                 $('.total_display').text(sum);
                 //product quantity count
                 var sum_qua = 0;
-                $('.item_qua').each(function()
+                $('.item_qua').each(function ()
                 {
                     checkValQty = isCheckedIntOrFloat($(this).text());
-//                        calcQty = checkValQty.toFixed(2);
-                    //alert(calcQty);
                     sum_qua += checkValQty;
-                    //sum_qua += $(this).text();
                 });
-                //alert(sum_qua);
                 $('.tot_quantity').text(sum_qua);
-                //alert(sum_qua);
                 //text box add
                 $('#mytxt').replaceWith('<a class="item_qua qua_css" href="javascript:void(0)" onclick="myAddClass(this)">' + $('.show').text() + '</a>');
                 $('.abc').text($('.show').text());
             }
         });
-        $('body').on('keyup', '#mytxt', function(e) {
+        $('body').on('keyup', '#mytxt', function (e) {
 //            console.log('fourth');
 //            alert($('#mytxt').val());
             var stt = $('#mytxt').val();
             $(".show").text(stt);
         });
-//        $('#operator_record').click(function() {
-//            operator_id = $(this).attr('data-id');
-//            $.ajax({
-//                url: base_url + 'admin_purchase_material/get_operator_data',
-//                type: "POST",
-//                data: {operator_id: operator_id},
-//                success: function(data) {
-//
-//                },
-//                error: function() {
-//                }
-//            });
-//        });
-//        $('#print_bill').click(function() {
-//            if ($('#mytxt').val()) {
-//                $('#mytxt').replaceWith('<a class="item_qua current qua_css" href="javascript:void(0)" onclick="myAddClass(this)">' + $('#mytxt').val() + '</a>');
-//            }
-//            var list = $('.calculate').html();
-//            var discount = $('.disc_input').val();
-//            var total = $('.total_display').text();
-//            var discount_price = parseFloat(discount * total) / 100;
-//            var new_total = total;
-//            $('.white_content').html('<div style="width: 100%; float: left;"><div class="title_product">Product</div><div class="title_quantity">Quantity</div><div class="title_price">Price</div><div class="title_subtotal">Subtotal</div></div>' + list + '<div class="bill_label"><div style="float:left">Total Items :</div><div class="bill_quantity"></div></div><div class="bill_label"><div style="float:left; width:35%;">Total :</div><div class="bill_total"></div><div style="float:left; width:96%;">---------------------------</div><div style="float:left; width:35%;">Grand total:</div><div class="last_total"></div></div><div style="width:50%; float:left;"><br/><input id="order_button" class="order_button" onclick="orderPlace(this)" type="button" value="Place Order"></div><div style="width:50%; float:left;"><input class="order_button" onclick="closeBill(this)" type="button" value="Cancel"></div>');
-//            $('.bill_quantity').text($('.tot_quantity').text());
-//            $('.bill_total').text($('.total_display').text());
-//            $('.desc_price').text(discount_price);
-//            $('.last_total').text(new_total);
-//            $('.total_insert').text(new_total);
-//            $('.white_content').children().children().removeClass('current');
-//            //$(".item_qua").bind('click', disableLink);
-//            $('.item_qua').attr('disabled', true);
-//            $('.white_content').children().children().removeClass('item_price');
-//            $('.white_content').children().children().removeClass('item_qua');
-//            $('.white_content a').removeAttr("onclick");
-//        });
         $.ajax({
             type: "GET",
             url: base_url + 'admin_purchase_material/get_all_row_material',
             dataType: "html", //expect html to be returned
-            success: function(response) {
+            success: function (response) {
                 $('#display_product').html('<table class="item_list">' + response + '</table>');
                 $('.carousel_slider').css('width', '');
                 $('.carousel_slider ul').css('margin-top', '13px');
                 $('.carousel_slider li').css('width', '');
                 //alert(response);
                 var sum_qua = 0;
-                $('.item_qua').each(function()
+                $('.item_qua').each(function ()
                 {
                     checkValQty = isCheckedIntOrFloat($(this).text());
 //                        calcQty = checkValQty.toFixed(2);
@@ -290,9 +243,7 @@ if (!empty($data)) {
 ?>
             }
         });
-
     });
-
     function closeBill(e) {
         $('#light').css("display", "none");
         $('#fade').css("display", "none");
@@ -317,10 +268,10 @@ if (!empty($data)) {
             url: base_url + 'admin_purchase_material/unset_session',
             type: "POST",
             data: {data_id: data_id},
-            success: function() {
+            success: function () {
 
             },
-            error: function() {
+            error: function () {
             }
         });
     }
@@ -336,23 +287,24 @@ if (!empty($data)) {
             }
             var fix_price = $('.curr_price').attr('data-fix');
             var uom = $('.curr_price').attr('data-uom');
+            var uom_id = $('.curr_price').attr('data-uom-id');
             var product_id = $('.curr_price').parents().attr('data-id');
             var product_name = $('#mytxt').siblings('.item_name').text();
-            var count = new_qua;//$('#mytxt').attr('data-qua');
+            var count = new_qua; //$('#mytxt').attr('data-qua');
             var total_price = fix_price * count;
             $('.curr_price').text(total_price);
             $.ajax({
                 url: base_url + 'admin_purchase_material/update_session',
                 type: "POST",
-                data: {product_id: product_id, add_count: count, total_product_price: total_price, product_name: product_name, fix_price: fix_price, uom: uom},
-                success: function(data) {
+                data: {product_id: product_id, add_count: count, total_product_price: total_price, product_name: product_name, fix_price: fix_price, uom: uom, uom_id: uom_id},
+                success: function (data) {
 
                 },
-                error: function() {
+                error: function () {
                 }
             });
             var sum = 0.0;
-            $('.item_price').each(function()
+            $('.item_price').each(function ()
             {
                 sum += parseFloat($(this).text());
             });
@@ -360,7 +312,7 @@ if (!empty($data)) {
             //product quantity count
 
             var sum_qua = 0;
-            $('.item_qua').each(function()
+            $('.item_qua').each(function ()
             {
                 checkValQty = isCheckedIntOrFloat($(this).text());
                 sum_qua += checkValQty;
@@ -368,14 +320,7 @@ if (!empty($data)) {
             $('.tot_quantity').text(sum_qua);
             $('#mytxt').replaceWith('<a class="item_qua current qua_css" href="javascript:void(0)" onclick="myAddClass(this)">' + new_qua + '</a>');
         }
-        //end mehul changes
 
-
-
-
-//        if ($('#mytxt').val()) {
-//            $('#mytxt').replaceWith('<a class="item_qua current qua_css" href="javascript:void(0)" onclick="myAddClass(this)">' + $('#mytxt').val() + '</a>');
-//        }
         $(e).addClass('current');
         $(e).siblings().addClass('curr_price');
         $('.item_name').removeClass('curr_price');
@@ -390,32 +335,6 @@ if (!empty($data)) {
         $('.current').hide();
         $('.abc').hide();
         var before_qua = $(e).text();
-//mehul 23-07-2015
-//        var check_value = $('#mytxt').val();
-//        if (check_value) {
-//            var item_price_fix = $('#mytxt').siblings('.item_price').attr('data-price');
-//            var total_price_calculate = parseInt(item_price_fix) * parseInt(check_value);
-//            $('#mytxt').siblings('.item_price').text(total_price_calculate);
-//            var sum = 0.0;
-//            $('.item_price').each(function()
-//            {
-//                sum += parseFloat($(this).text());
-//            });
-//            $('.total_display').text(sum);
-//            var sum_qua = 0;
-//            $('.item_qua').each(function()
-//            {
-//                //alert(sum_qua);
-//                sum_qua += parseInt($(this).text());
-//            });
-//            $('.tot_quantity').text(sum_qua);
-//
-//            $('#mytxt').replaceWith('<a class="item_qua current qua_css" href="javascript:void(0)" onclick="myAddClass(this)">' + check_value + '</a>');
-//
-        //        }
-        //mehul 23-07-2015 over
-
-        //$(e).replaceWith('<input class="item_qua current" style="height:10px; width:20%; float:left;" type="text" name="mytxt" value="" id="mytxt"></input>');
         $(e).replaceWith('<input id="mytxt" class="found" type="text" value="' + before_qua + '" data-qua="' + before_qua + '"></input>');
         $('.show').text('');
         $('#mytxt').focus();
@@ -443,10 +362,10 @@ if (!empty($data)) {
             url: base_url + 'admin_purchase_material/get_product_by_category',
             type: "POST",
             data: {category_id: id},
-            success: function(data) {
+            success: function (data) {
                 $('#display_product').html('<table class="item_list">' + data + '</table>');
             },
-            error: function() {
+            error: function () {
             }
         });
     }
@@ -463,32 +382,44 @@ if (!empty($data)) {
             } else {
                 var new_qua = $('#mytxt').val();
             }
+            //alert(new_qua);
+
             var fix_price = $('.curr_price').attr('data-fix');
             var product_id = $('.curr_price').parents().attr('data-id');
             var uom = $('.curr_price').attr('data-uom');
+            var uom_id = $('.curr_price').attr('data-uom-id');
             var product_name = $('#mytxt').siblings('.item_name').text();
-            var count = new_qua;//$('#mytxt').attr('data-qua');
+            //alert(uom);
+
+            if (uom === "GM" || uom === "ML") {
+                convertedQty = new_qua / 1000;
+            } else {
+                convertedQty = new_qua;
+            }
+
+            //alert(convertedQty);
+            var count = convertedQty; //$('#mytxt').attr('data-qua');
             var total_price = fix_price * count;
             $('.curr_price').text(total_price);
             $.ajax({
                 url: base_url + 'admin_purchase_material/update_session',
                 type: "POST",
-                data: {product_id: product_id, add_count: count, total_product_price: total_price, product_name: product_name, fix_price: fix_price, uom: uom},
-                success: function(data) {
+                data: {product_id: product_id, add_count: new_qua, total_product_price: total_price, product_name: product_name, fix_price: fix_price, uom: uom, uom_id: uom_id},
+                success: function (data) {
 
                 },
-                error: function() {
+                error: function () {
                 }
             });
             var sum = 0.0;
-            $('.item_price').each(function()
+            $('.item_price').each(function ()
             {
                 sum += parseFloat($(this).text());
             });
             $('.total_display').text(sum);
             //product quantity count
             var sum_qua = 0;
-            $('.item_qua').each(function()
+            $('.item_qua').each(function ()
             {
                 checkValQty = isCheckedIntOrFloat($(this).text());
                 sum_qua += checkValQty;
@@ -520,56 +451,55 @@ if (!empty($data)) {
             }
             var product_id = $(e).attr('data-id');
             var id_name = 'product_' + product_id;
-
             var product_count = $('#' + id_name).children('.item_qua').text();
-            var product_name = $('#' + id_name).children('.item_name').text();
 
-            product_count_float = parseFloat(product_count);
-            product_count_value = isCheckedIntOrFloat(product_count_float);
-            //var product_count1 = product_count_value.toFixed(3);
-            //alert(product_count_value);
-            //alert(product_count_value);
-            var add_count = product_count_value + parseInt(1);
-            //alert(add_count);
-            //alert(add_count);
+            var product_name = $('#' + id_name).children('.item_name').text();
+            var uom = $('#' + id_name).children().children('#uom').find("option:selected").text();
+            var uom_id = $('#' + id_name).children().children('#uom').find("option:selected").val();
+            //product_count_float = parseFloat(product_count);
+            var fixedQty;
+            var product_count_value = isCheckedIntOrFloat(product_count);
+            if (uom === "GM" || uom === "ML") {
+                fixedQty = 1000;
+
+            } else {
+                fixedQty = 1;
+
+            }
+            var add_count = product_count_value + fixedQty;
+            if (uom === "GM" || uom === "ML") {
+                convertedQty = add_count / 1000;
+            } else {
+                convertedQty = add_count;
+            }
             $('#' + id_name).children('.item_qua').text(add_count.toFixed(2));
             var fix_price = $('#' + id_name).children('.price_tit').text();
-            var total_product_price = add_count * fix_price;
+            var total_product_price = convertedQty * fix_price;
+            //alert(convertedQty);
             $('#' + id_name).children('.item_price').text(total_product_price.toFixed(2));
-            // alert(total_product_price);
-            var uom = $('#' + id_name).children('.uom_tit').text();
-            //var final_total = $('.total_display').text();
             $.ajax({
                 url: base_url + 'admin_purchase_material/update_session',
                 type: "POST",
-                data: {product_id: product_id, add_count: add_count, total_product_price: total_product_price, product_name: product_name, fix_price: fix_price, uom: uom},
-                success: function(data) {
+                data: {product_id: product_id, add_count: add_count, total_product_price: total_product_price, product_name: product_name, fix_price: fix_price, uom: uom, uom_id: uom_id},
+                success: function (data) {
                     var sum = 0.0;
-                    $('.item_price').each(function()
+                    $('.item_price').each(function ()
                     {
                         sum += parseFloat($(this).text());
                     });
-                    //var discount = $('.disc_input').val();
-                    //var disc_price = parseFloat(discount * sum) / 100;
-                    //var grand_sum = parseFloat(sum - disc_price);
-                    //alert(sum);
                     var sum_value = isCheckedIntOrFloat(sum);
                     $('.total_display').text(sum_value);
                     var sum_qua = 0.00;
-                    $('.item_qua').each(function()
+                    $('.item_qua').each(function ()
                     {
                         checkValQty = isCheckedIntOrFloat($(this).text());
-//                        calcQty = checkValQty.toFixed(2);
-                        //alert(calcQty);
                         sum_qua += checkValQty;
-
                     });
-
                     $('.tot_quantity').text(sum_qua);
                     $('.main').removeClass('load');
                     $("a").removeClass('pro_dis');
                 },
-                error: function() {
+                error: function () {
                 }
             });
         } else {
@@ -585,13 +515,12 @@ if (!empty($data)) {
             $('.total_display').text();
             var product_id = $(e).attr('data-id');
             var final_total = $('.total_display').text();
-
             comm = "";
             $.ajax({
                 url: base_url + 'admin_purchase_material/get_row_material',
                 type: "POST",
                 data: {products_id: product_id, final_total: final_total},
-                success: function(data) {
+                success: function (data) {
                     $('.show').text('');
                     $(e).children().addClass('repeat');
                     $('.calculate').append('<div data-id="' + product_id + '" id="product_' + product_id + '" class="bill_item">' + data + '</div>');
@@ -601,19 +530,15 @@ if (!empty($data)) {
                     $('.current').text(num);
                     $('.curr_price').text(item_total_price);
                     var sum = 0.0;
-                    $('.item_price').each(function()
+                    $('.item_price').each(function ()
                     {
                         sum += parseFloat($(this).text());
                     });
-                    //var discount = $('.disc_input').val();
-                    //var disc_price = discount * sum / 100;
-                    //var grand_sum = sum - disc_price;
 
                     $('.total_display').text(sum);
                     //product quantity count
                     var sum_qua = 0;
-
-                    $('.item_qua').each(function()
+                    $('.item_qua').each(function ()
                     {
                         checkValQty = isCheckedIntOrFloat($(this).text());
 //                        calcQty = checkValQty.toFixed(2);
@@ -626,7 +551,7 @@ if (!empty($data)) {
                     $('.main').removeClass('load');
                     $("a").removeClass('pro_dis');
                 },
-                error: function() {
+                error: function () {
                 }
             });
         }
@@ -662,12 +587,27 @@ if (!empty($data)) {
         if (btn_action == 'OK') {
             $('.btn_count').attr('disabled', true);
             $('.btn_count_right').attr('disabled', true);
+
+            var item_price = $('.curr_price').attr('data-price');
+            var fix_price = $('.curr_price').attr('data-fix');
+            var product_name = $('.curr_price').attr('data-title');
+            var product_id = $('.curr_price').parent().attr('data-id');
+            var uom = $('.curr_price').attr('data-uom');
+            var uom_id = $('.curr_price').attr('data-uom-id');
+
             var curr_qua = $('.current').text();
+
             var textbox_qua1 = $('#mytxt').val();
+
             var checkVal = isCheckedIntOrFloat(textbox_qua1);
             var textbox_qua = checkVal.toFixed(2);
             if (textbox_qua1 === "" || textbox_qua1 === ".") {
-                textbox_qua1 = 1;
+                if (uom === "GM" || uom === "ML") {
+                    textbox_qua1 = 1000;
+                } else {
+                    textbox_qua1 = 1;
+                }
+
             } else {
                 textbox_qua1 = textbox_qua;
             }
@@ -680,31 +620,36 @@ if (!empty($data)) {
             } else {
                 var num = $('.show').text();
             }
-            var item_price = $('.curr_price').attr('data-price');
-            var fix_price = $('.curr_price').attr('data-fix');
-            var product_name = $('.curr_price').attr('data-title');
-            var product_id = $('.curr_price').parent().attr('data-id');
-            var uom = $('.curr_price').attr('data-uom');
-            // alert(uom);
+            var convertedQty;
+            if (uom === "GM" || uom === "ML") {
+                convertedQty = num / 1000;
+            } else {
+                convertedQty = num;
+            }
+            var item_total_price;
+            var convertedItemPrice;
             if (curr_qua) {
                 $('.current').text(curr_qua);
-                var item_total_price = curr_qua * fix_price;
+                item_total_price = curr_qua * fix_price;
             } else {
-                $('.current').text(num);
-                var item_total_price = num * fix_price;
+                $('.current').text(convertedQty);
+                item_total_price = convertedQty * fix_price;
+                convertedItemPrice = item_total_price.toFixed(2);
             }
 
-            $('.curr_price').text(item_total_price);
+            $('.curr_price').text(convertedItemPrice);
             var sum = 0.0;
-            $('.item_price').each(function()
+            var convertedSum;
+            $('.item_price').each(function ()
             {
                 sum += parseFloat($(this).text());
+                convertedSum = sum.toFixed(2);
             });
-            $('.total_display').text(sum);
+            $('.total_display').text(convertedSum);
             $('#mytxt').replaceWith('<a class="item_qua current qua_css" href="javascript:void(0)" onclick="myAddClass(this)">' + $('.show').text() + '</a>');
             //product quantity count
             var sum_qua = 0;
-            $('.item_qua').each(function()
+            $('.item_qua').each(function ()
             {
                 checkValQty = isCheckedIntOrFloat($(this).text());
 //                        calcQty = checkValQty.toFixed(2);
@@ -720,11 +665,11 @@ if (!empty($data)) {
             $.ajax({
                 url: base_url + 'admin_purchase_material/update_session',
                 type: "POST",
-                data: {product_id: product_id, add_count: num, total_product_price: item_total_price, product_name: product_name, fix_price: fix_price, uom: uom},
-                success: function(data) {
+                data: {product_id: product_id, add_count: num, total_product_price: item_total_price, product_name: product_name, fix_price: fix_price, uom: uom, uom_id: uom_id},
+                success: function (data) {
 
                 },
-                error: function() {
+                error: function () {
                 }
             });
         }
@@ -755,7 +700,7 @@ if (!empty($data)) {
                 url: base_url + 'admin_purchase_material/place_order',
                 type: "POST",
                 data: {total_amount: total_amount, total_quantity: total_quantity},
-                success: function(data) {
+                success: function (data) {
                     if ($('.is_print').is(':checked')) {
                         window.print('#light');
                     }
@@ -766,7 +711,7 @@ if (!empty($data)) {
                     $('.product_img').removeClass('repeat');
                     unsetMySession();
                 },
-                error: function() {
+                error: function () {
                 }
             });
         } else {
@@ -780,15 +725,127 @@ if (!empty($data)) {
             url: base_url + 'admin_purchase_material/delete_session',
             type: "POST",
             data: {total_amount: total_amount},
-            success: function() {
+            success: function () {
 
             },
-            error: function() {
+            error: function () {
             }
         });
     }
 
+    function perUom(e) {
+        if ($('#mytxt').attr('data-qua')) {
+            if ($('#mytxt').val() == "") {
+                var new_qua = $('#mytxt').attr('data-qua');
+            } else {
+                var new_qua = $('#mytxt').val();
+            }
+            var fix_price = $('.curr_price').attr('data-fix');
+            var uom = $('.curr_price').attr('data-uom');
+            var uom_id = $('.curr_price').attr('data-uom-id');
+            var product_id = $('.curr_price').parents().attr('data-id');
+            var product_name = $('#mytxt').siblings('.item_name').text();
+            var count = new_qua; //$('#mytxt').attr('data-qua');             var total_price = fix_price * count;
+            $('.curr_price').text(total_price);
+            $.ajax({
+                url: base_url + 'admin_purchase_material/update_session',
+                type: "POST",
+                data: {product_id: product_id, add_count: count, total_product_price: total_price, product_name: product_name, fix_price: fix_price, uom: uom, uom_id: uom_id},
+                success: function (data) {
 
+                },
+                error: function () {
+                }
+            });
+            var sum = 0.0;
+            $('.item_price').each(function ()
+            {
+                sum += parseFloat($(this).text());
+            });
+            $('.total_display').text(sum);
+            //product quantity count
+
+            var sum_qua = 0;
+            $('.item_qua').each(function ()
+            {
+                checkValQty = isCheckedIntOrFloat($(this).text());
+                sum_qua += checkValQty;
+            });
+            $('.tot_quantity').text(sum_qua);
+            $('#mytxt').replaceWith('<a class="item_qua current qua_css" href="javascript:void(0)" onclick="myAddClass(this)">' + new_qua + '</a>');
+        }
+        var fixPrice = 1000;
+        var convertQty;
+        var subTotal;
+        var priceCal;
+        var fix_price;
+        var checkValQty;
+        var num;
+        var checkVal;
+        var product_id;
+        var total_price;
+        var item_name;
+        var uom_id;
+        var uom;
+        var qty;
+        var tot;
+        qty = $(e).parent().siblings('.item_qua').text();
+        uom_id = e.value;
+        uom = e.options[e.selectedIndex].innerHTML;
+
+        // alert(e.selectedIndex);
+
+        if (uom === "GM" || uom === "ML") {
+            convertQty = qty * fixPrice;
+        } else {
+            convertQty = qty / fixPrice;
+        }
+        fix_price = $(e).parent().siblings('.price_tit').text();
+        tot = $(e).parent().siblings('.item_price').text();
+        //alert(tot);
+        priceCal = convertQty * fix_price;
+        subTotal = priceCal.toFixed(2);
+        // alert(subTotal);
+        //Put Converted Quantity on change uom
+        $(e).parent().siblings('.item_qua').html(convertQty);
+        //Put Converted Sub Total on change uom
+        //$(e).parent().siblings('.item_price').html(subTotal);
+
+        var sum = 0.0;
+        $('.item_price').each(function ()
+        {
+            sum += parseFloat($(this).text());
+        });
+        var sum1 = sum.toFixed(2);
+        $('.total_display').text(sum1);
+        var sum_qua = 0;
+        $('.item_qua').each(function ()
+        {
+            checkValQty = isCheckedIntOrFloat($(this).text());
+            sum_qua += checkValQty;
+        });
+        $('.tot_quantity').text(sum_qua);
+        product_id = $(e).parent().parent().attr('data-id');
+        //console.log();
+        //replace uom and uom id on change dropdown
+        $(e).parent().siblings('.item_price').attr('data-uom', uom);
+        $(e).parent().siblings('.item_price').attr('data-uom-id', uom_id);
+        //end replace
+
+        item_name = $(e).parent().siblings(".item_name").text();
+        checkVal = isCheckedIntOrFloat(convertQty);
+        num = checkVal.toFixed(2);
+        total_price = isCheckedIntOrFloat(tot);
+        $.ajax({
+            url: base_url + 'admin_purchase_material/update_session',
+            type: "POST",
+            data: {product_id: product_id, add_count: num, total_product_price: total_price, product_name: item_name, fix_price: fix_price, uom: uom, uom_id: uom_id},
+            success: function (data) {
+            },
+            error: function () {
+            }
+        });
+    }
 </script>
 <style>
     #footer{ display: none;}
@@ -805,11 +862,11 @@ if (!empty($data)) {
     .total{ width: 50%; border-bottom: 2px solid; float: left;}
     .total_display{ width: 50%; border-bottom: 2px solid; float: left; }
     .calculate{ width: 100%; height: 260px; overflow: auto; background-color: #fff;}
-    .bill_item{ width: 96%; float: left; height: 24px;}
-    .item_name{ width: 30%; float: left; border-bottom: 1px solid #ccc; text-align: center;}
-    .item_qua{ width: 17%; float: left; border-bottom: 1px solid #ccc; text-align: center;}
-    .item_price{ width: 17%; float: left; border-bottom: 1px solid #ccc; text-align: center;}
-    .uom_tit{ width:18%; float: left; border-bottom: 1px solid #ccc; text-align: center;}
+    .bill_item{ border-bottom: 1px solid #ccc;float: left;height: 24px;width: 96%;}
+    .item_name{ width: 30%; float: left;  text-align: center;}
+    .item_qua{ width: 17%; float: left;  text-align: center;}
+    .item_price{ width: 17%; float: left;  text-align: center;}
+    .uom_tit{ width:18%; float: left;  text-align: center;}
     .cal_btn{ width: 52%; float: left;}
     .btn_count{border-radius: 0; margin-left: 2px; padding: 19px 24px; font-size: 21px;}
     .btn_count:hover{ background-color: #5579b7;}
@@ -825,7 +882,7 @@ if (!empty($data)) {
     .current{ background-color: #FFFF00;}
     .active { background-color: #FFFF00;}
     .abc{ float: left; width: 20%; display: none; }
-    .append_qua{ float: left; width: 20%; border-bottom: 1px solid #ccc; text-align: center; display: none;}
+    .append_qua{ float: left; width: 20%;  text-align: center; display: none;}
     .carousel_slider{ float: left; height: 45px; font-size: 20px; width: 89% !important; }
     .carousel_slider li{ margin: 2px 21px 10px; }
     .prev{ float: left; height: 48px; width: 50px;}
@@ -835,7 +892,7 @@ if (!empty($data)) {
     .title_subtotal{ float: left; width: 20%; text-align: center; font-weight: bold;}
     .title_price{ float: left; width: 12%; text-align: center; font-weight: bold;}
     .title_uom{float: left;font-weight: bold;text-align: center;width: 15%;}
-    .price_tit{ float: left; width: 12%; text-align: center; border-bottom: 1px solid #CCC;}
+    .price_tit{ float: left; width: 12%; text-align: center; }
     .cancel_btn{color: red; float: left; text-align: right; }
 
 
@@ -888,7 +945,7 @@ if (!empty($data)) {
     /*    #load{ background: url(../loading.gif) no-repeat; display: none; position: relative; z-index: 1000; background-position: center center; }*/
     .load{background: url(../loading.gif) no-repeat; position: relative; z-index: 1000; background-position: center center; }
     .pro_dis{ pointer-events: none; cursor: default; }
-    .white_content .item_price_css,.white_content .qua_css { width: 20%; float: left; border-bottom: 1px solid #ccc; text-align: center;}
+    .white_content .item_price_css,.white_content .qua_css { width: 20%; float: left;  text-align: center;}
 </style>
 
 <div class="main">
@@ -899,7 +956,14 @@ if (!empty($data)) {
         $item_quantity = 0;
         if (!empty($data)) {
             foreach ($data as $value) {
-                $grand += $value['price'] * $value['qty'];
+                $uom_session = $value['uom'];
+                $perProductQty = $value['qty'];
+                if ($uom_session == "GM" || $uom_session == "ML") {
+                    $qty = $perProductQty / 1000;
+                } else {
+                    $qty = $perProductQty;
+                }
+                $grand += $value['price'] * $qty;
                 $item_quantity += $value['qty'];
             }
         }
@@ -919,13 +983,30 @@ if (!empty($data)) {
             $data = $this->session->userdata('my_order');
             if (!empty($data)) {
                 foreach ($data as $data_session) {
+                    $uom_val = $data_session['uom_id'];
+                    $where = " AND uom_id={$uom_val}";
+                    $uom_unit = $this->common_model->getFieldData('uom', 'uom', $where);
+
+                    if ($uom_unit == "KG" || $uom_unit == "GM") {
+                        $where_uom_id = " AND (uom_id='" . KG_VAL . "' OR uom_id = '" . GM_VAL . "')";
+                    } else {
+                        $where_uom_id = " AND (uom_id='" . LTR_VAL . "' OR uom_id = '" . ML_VAL . "')";
+                    }
+                    $uom_opt = $this->common_model->getDDArray('uom', 'uom_id', 'uom', $where_uom_id);
+                    unset($uom_opt['']);
                     ?>
                     <div id="product_<?php echo $data_session['products_id'] ?>" class="bill_item" data-id="<?php echo $data_session['products_id'] ?>">
                         <div href="javascript:void(0)" class='item_name'><?php echo $data_session['title'] ?></div>
                         <a onclick="myAddClass(this)" href="javascript:void(0)" class='item_qua'><?php echo $data_session['qty'] ?></a><a onclick="myAddClass(this)" href="javascript:void(0)" class="append_qua abc"></a>
-                        <div class="uom_tit" href="javascript:void(0)"><?php echo $data_session['uom'] ?></div>
+                        <div class="uom_tit" href="javascript:void(0)">
+                            <?php
+                            $js = "perUom(this)";
+                            $attribute = 'id="uom"  onchange="' . $js . '"';
+                            echo form_dropdown('uom', $uom_opt, $data_session['uom_id'], $attribute);
+                            ?>
+                        </div>
                         <div class="price_tit" href="javascript:void(0)"><?php echo $data_session['price'] ?></div>
-                        <div href="javascript:void(0)" data-uom="<?php echo $data_session['uom'] ?>" data-title='<?php echo $data_session['title'] ?>' data-fix='<?php echo $data_session['price'] ?>' data-price='<?php echo $data_session['total'] ?>' class='item_price curr_price'><?php echo $data_session['total'] ?></div>
+                        <div href="javascript:void(0)" data-uom="<?php echo $data_session['uom'] ?>" data-uom-id="<?php echo $data_session['uom_id'] ?>" data-title='<?php echo $data_session['title'] ?>' data-fix='<?php echo $data_session['price'] ?>' data-price='<?php echo $data_session['total'] ?>' class='item_price curr_price'><?php echo $data_session['total'] ?></div>
                         <a onclick="removeItem(this)" class="cancel_btn" href="javascript:void(0)">X</a>
                     </div>
                     <?php
@@ -956,22 +1037,13 @@ if (!empty($data)) {
             <div class="order_button_class">
                 <input class="btn_clear_all" onclick="okClear(this)" type="button" value="CLR">
                 <input id="order_button" class="save" onclick="orderPlace(this)" type="button" value="Save">
-<!--                <input id="print_bill" type="button" value="Print" onclick = "document.getElementById('light').style.display = 'block';
-        document.getElementById('fade').style.display = 'block'" >-->
-
             </div>
-            <!--            <div class="discount">
-                            Discount:<input class="disc_input" type="text" name="discount">%
-                        </div>-->
-            <!--            <div class="print_bill">
-                            <input class="is_print" type="checkbox" name="check_bill"><span>Print Bill</span>
-                        </div>-->
             <div id="light" class="white_content">
                 <div style="width: 100%; float: left;">
                     <div class="bill_title">Billing</div>
                     <div class="bill_close">
                         <a href = "javascript:void(0)" onclick = "document.getElementById('light').style.display = 'none';
-        document.getElementById('fade').style.display = 'none'">Close</a>
+                                document.getElementById('fade').style.display = 'none'">Close</a>
                     </div>
                 </div>
                 <input id="order_button" class="order_button" onclick="orderPlace(this)" type="button" value="Place Order">
@@ -980,7 +1052,7 @@ if (!empty($data)) {
                 <div style="width: 100%; float: left;">
                     <div class="bill_close">
                         <a href = "javascript:void(0)" onclick = "document.getElementById('pop_up').style.display = 'none';
-        document.getElementById('fade').style.display = 'none'">Close</a>
+                                document.getElementById('fade').style.display = 'none'">Close</a>
                     </div>
                 </div>
             </div>

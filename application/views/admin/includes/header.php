@@ -37,9 +37,9 @@
                             <a href="<?php echo base_url(); ?>admin/dashboard">Dashboard</a>
                         </li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">theater<b <?php //echo ($m_count > 0) ? 'style="margin-top:11px"' : ''                                                                                    ?> class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">theater<b <?php //echo ($m_count > 0) ? 'style="margin-top:11px"' : ''                                                                                                 ?> class="caret"></b></a>
                             <?php // if($m_count > 0){ ?>
-                            <div class="tip_div"><span class="tip"><span class="tip_in"><?php //echo $m_count;                                                                                    ?></span></span></div>
+                            <div class="tip_div"><span class="tip"><span class="tip_in"><?php //echo $m_count;                                                                                                 ?></span></span></div>
                             <?php // }   ?>
                             <ul class="dropdown-menu">
                                 <li <?php
@@ -120,7 +120,11 @@
                             if ($user_type == 'operator') {
                                 ?>
                                 <a href="<?php echo base_url(); ?>admin/operator_data" data-id="<?php echo $user_id; ?>" class="operator_detail">Operator detail</a>
-                            <?php } ?>
+                            <?php } else {
+                                ?>
+                                <a href = "<?php echo base_url(); ?>admin/purchase_details_data" data-id = "<?php echo $user_id; ?>" class = "operator_detail">Purchase detail</a>
+                            <?php }
+                            ?>
                         </li>
                     </ul>
                 </div>
