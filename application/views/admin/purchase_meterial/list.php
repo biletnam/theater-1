@@ -678,7 +678,6 @@ if (!empty($data)) {
             $('.total_display').text('0');
             $('.product_img').removeClass('repeat');
             unsetMySession();
-            document.getElementById('noti').style.display = 'block';
         }
         $('.show').empty();
     }
