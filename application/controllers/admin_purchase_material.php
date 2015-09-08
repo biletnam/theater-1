@@ -121,6 +121,14 @@ class Admin_purchase_material extends CI_Controller {
             foreach ($session_data as $value) {
                 $uom = $value['uom'];
                 $perQuantity = $value['qty'];
+                if ($uom == "KG") {
+                    $convertedUom = "GM";
+                } else if ($uom == "LTR") {
+                    $convertedUom = "ML";
+                } else {
+                    $convertedUom = $uom;
+                }
+
                 if ($uom == "KG" || $uom == "LTR") {
                     $quantity = $perQuantity * 1000;
                 } else {
@@ -149,8 +157,8 @@ class Admin_purchase_material extends CI_Controller {
                 if (empty($inventory_data)) {
                     $arr_insert = array(
                         "name" => $value['title'],
-                        "qua" => $value['qty'],
-                        "uom" => $value['uom'],
+                        "qua" => $quantity,
+                        "uom" => $convertedUom,
                         "total_cost" => $value['total'],
                     );
                     $this->purchase_material_model->addProductInventory($arr_insert);
@@ -161,7 +169,7 @@ class Admin_purchase_material extends CI_Controller {
                     $where = "AND name='" . $value['title'] . "'";
                     $new_total = $this->common_model->getFieldData('inventory', 'total_cost', $where);
 
-                    $new_qua = $qua_inv + $value['qty'];
+                    $new_qua = $qua_inv + $quantity;
                     $new_total = $new_total + $value['total'];
                     $arr = array(
                         "qua" => $new_qua,
