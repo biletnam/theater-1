@@ -121,6 +121,10 @@ $route['admin/uom/(:any)'] = 'admin_uom/index/$1';
 $route['admin/operator_data'] = 'admin_operator_data/index';
 $route['admin/operator_data/(:any)'] = 'admin_operator_data/index/$1';
 
+$route['admin/purchase_details_data'] = 'admin_purchase_details_data/index';
+$route['admin/purchase_details_data/(:any)'] = 'admin_purchase_details_data/index/$1';
+
+
 $route['admin/operator'] = 'admin_operator/index';
 
 $route['admin/operator_list'] = 'admin_operator_list/index';
