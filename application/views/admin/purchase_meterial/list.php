@@ -678,6 +678,7 @@ if (!empty($data)) {
             $('.total_display').text('0');
             $('.product_img').removeClass('repeat');
             unsetMySession();
+            document.getElementById('noti').style.display = 'block';
         }
         $('.show').empty();
     }
@@ -710,6 +711,10 @@ if (!empty($data)) {
                     $('.total_display').text('0');
                     $('.product_img').removeClass('repeat');
                     unsetMySession();
+                    $("#noti").show();
+                    $("#noti").addClass("in")
+                    $("#noti").delay(2500).fadeOut('slow');
+                    //$("#noti").fadeOut(3000);
                 },
                 error: function () {
                 }
@@ -848,6 +853,31 @@ if (!empty($data)) {
     }
 </script>
 <style>
+    #notification {
+        position:fixed;
+        top:0px;
+        width:100%;
+        z-index:105;
+        text-align:center;
+        font-weight:normal;
+        font-size:14px;
+        font-weight:bold;
+        color:white;
+        background-color:#FF7800;
+        padding:5px;
+    }
+    #notification span.dismiss {
+        border:2px solid #FFF;
+        padding:0 5px;
+        cursor:pointer;
+        float:right;
+        margin-right:10px;
+    }
+    #notification a {
+        color:white;
+        text-decoration:none;
+        font-weight:bold
+    }
     #footer{ display: none;}
     /*    .navbar{ display: none;}*/
     .main{width: 100%; margin-top: 40px; overflow: hidden;}
@@ -949,6 +979,15 @@ if (!empty($data)) {
 </style>
 
 <div class="main">
+
+
+    <div class="alert alert-success fade" id ="noti" style="display: none;position: absolute; width: 50%; left: 30%">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>Successfully!</strong> Purchase Order Placed.
+
+    </div>
+
+
     <div class="left">
         <?php
         $data = $this->session->userdata('my_order');
@@ -1065,4 +1104,5 @@ if (!empty($data)) {
     <div class="right">
         <div id="display_product" class="display_product"></div>
     </div>
+
 </div>
