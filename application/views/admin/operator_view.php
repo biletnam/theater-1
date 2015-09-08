@@ -197,7 +197,7 @@
             var total = $('.total_display').text();
             var discount_price = parseFloat(discount * total) / 100;
             var new_total = total - discount_price;
-            $('.white_content').html('<div style="width: 100%; float: left;"><div class="title_product">Product</div><div class="title_quantity">Quantity</div><div class="title_price">Price</div><div class="title_subtotal">Subtotal</div></div>' + list + '<div class="bill_label"><div style="float:left">Total Items :</div><div class="bill_quantity"></div></div><div class="bill_label"><div style="float:left; width:35%;">Total :</div><div class="bill_total"></div><div style="float:left; width:29%;">Disc :</div>-<div style="width: 63%; float: right;" class="desc_price"></div><div style="float:left; width:96%;">---------------------------</div><div style="float:left; width:35%;">Grand total:</div><div class="last_total"></div></div><div style="width:50%; float:left;"><select class="paymet_class" name="payment_select"><option selected="selected">Cash</option><option>Debit Card</option></select><br/><input id="order_button" class="order_button" onclick="orderPlace(this)" type="button" value="Place Order"></div><div style="width:50%; float:left;"><input class="order_button" onclick="closeBill(this)" type="button" value="Cancel"></div>');
+            $('.white_content').html('<div style="width: 100%; float: left;"><div class="title_product">Product</div><div class="title_quantity">Quantity</div><div class="title_price">Price</div><div class="title_subtotal">Subtotal</div></div>' + list + '<div class="bill_label bill_label_left"><div style="float:left">Total Items :</div><div class="bill_quantity"></div></div><div class="bill_label"><div style="float:left; width:35%;">Total :</div><div class="bill_total"></div><div style="float:left; width:29%;">Disc :</div>-<div style="width: 63%; float: right;" class="desc_price"></div><div style="float:left; width:96%;">---------------------------</div><div style="float:left; width:35%;">Grand total:</div><div class="last_total"></div></div><div style="width:50%; float:left;"><select class="paymet_class" name="payment_select"><option selected="selected">Cash</option><option>Debit Card</option></select><br/><input id="order_button" class="order_button" onclick="orderPlace(this)" type="button" value="Place Order"></div><div style="width:50%; float:left;"><input class="order_button" onclick="closeBill(this)" type="button" value="Cancel"></div>');
             $('.bill_quantity').text($('.tot_quantity').text());
             $('.bill_total').text($('.total_display').text());
             $('.desc_price').text(discount_price);
@@ -357,7 +357,7 @@ if (!empty($data)) {
         $('.btn_count').attr('disabled', true);
         //mehul 21-08-2015
         if ($('#mytxt').attr('data-qua')) {
-            if ($('#mytxt').val() === "" || $('#mytxt').val() === ".") {
+            if ($('#mytxt').val() == "" || $('#mytxt').val() == ".") {
                 var new_qua = $('#mytxt').attr('data-qua');
             } else {
                 var new_qua = $('#mytxt').val();
@@ -560,8 +560,7 @@ if (!empty($data)) {
             });
             $('.total_display').text(sum);
             $('#mytxt').replaceWith('<a class="item_qua current qua_css" href="javascript:void(0)" onclick="myAddClass(this)">' + $('.show').text() + '</a>');
-//product quantity count
-            var sum_qua = 0;
+//product quantity count             var sum_qua = 0;
             $('.item_qua').each(function()
             {
                 sum_qua += parseInt($(this).text());
@@ -613,18 +612,20 @@ if (!empty($data)) {
                         //window.print('#light');
                         $('.title_product,.item_name').css({"width": "40%", "float": "left"});
                         $('.title_quantity,.qua_css').css({"width": "20%", "float": "left"});
-                        $('.title_price,.price_tit').css({"width": "12%", "float": "left"});
+                        $('.title_price,.price_tit').css({"width": "20%", "float": "left"});
                         $('.title_subtotal,.item_price_css').css({"width": "20%", "float": "left"});
+                        $('.cancel_btn,.paymet_class,#order_button,.order_button').css('display', 'none');
+                        $('.bill_label').css({'float': 'right', 'width': '31%'});
+                        $('.bill_label_left').css('float', 'left');
 
                         var divContents = $("#light").html();
-                        var printWindow = window.open('', '', 'height=400,width=800');
+                        var printWindow = window.open('', '', 'height=400,width=500');
                         printWindow.document.write('<html><head><title>DIV Contents</title>');
                         printWindow.document.write('</head><body >');
                         printWindow.document.write(divContents);
                         printWindow.document.write('</body></html>');
                         printWindow.document.close();
                         printWindow.print();
-
 
                     }
                     $('#light').css("display", "none");
@@ -633,6 +634,8 @@ if (!empty($data)) {
                     $('.total_display').text('0');
                     $('.product_img').removeClass('repeat');
                     unsetMySession();
+                    $("#message_display").fadeIn();
+                    $("#message_display").fadeOut(3000);
                 },
                 error: function() {
                 }
@@ -655,7 +658,6 @@ if (!empty($data)) {
             }
         });
     }
-
 
 </script>
 <style>
@@ -753,6 +755,7 @@ if (!empty($data)) {
     .load{background: url(../loading.gif) no-repeat; position: relative; z-index: 1000; background-position: center center; }
     .pro_dis{ pointer-events: none; cursor: default; }
     .white_content .item_price_css,.white_content .qua_css { width: 20%; float: left; border-bottom: 1px solid #ccc; text-align: center;}
+    #message_display{ float: right; bottom: 0; display: none; background-color: #00FF00; padding: 5px 15px; font-weight: bold;}
 </style>
 
 <div class="main">
@@ -783,6 +786,9 @@ if (!empty($data)) {
 
             if (!empty($data)) {
                 foreach ($data as $data_session) {
+//                    echo "<pre>";
+//                    print_r($data_session);
+//                    echo "</pre>";
                     ?>
                     <div id="product_<?php echo $data_session['products_id'] ?>" class="bill_item" data-id="<?php echo $data_session['products_id'] ?>">
                         <div href="javascript:void(0)" class='item_name'><?php echo $data_session['title'] ?></div>
@@ -815,7 +821,7 @@ if (!empty($data)) {
                 <input class="btn_count_right" disabled onclick="mynumber(this)" type="button" value="0">
             </div>
             <div class="discount">
-                Discount:<input class="disc_input" type="text" name="discount">%
+                Discount:<input class="disc_input" type="text" name="discount" value="0">%
             </div>
             <div class="order_button_class">
                 <input id="print_bill" type="button" value="Order" onclick = "document.getElementById('light').style.display = 'block';
@@ -864,9 +870,9 @@ if (!empty($data)) {
                     <li style="height:20px"><a href="javascript:void(0);" data-id="<?php echo $category[$i]['category_id'] ?>" onclick="myproduct(this)" ><?php echo $category[$i]['category_name'] ?></a></li>
                 <?php } ?>
 
-                <?php //foreach ($category as $category_data) {   ?>
+                <?php //foreach ($category as $category_data) {       ?>
 <!--                <li style="height:20px"><a href="javascript:void(0);" data-id="<?php echo $category_data['category_id'] ?>" onclick="myproduct(this)" ><?php echo $category_data['category_name'] ?></a></li>-->
-                <?php //}    ?>
+                <?php //}         ?>
 
             </ul>
         </div>
@@ -874,5 +880,6 @@ if (!empty($data)) {
         <div id="display_product" class="display_product">
 
         </div>
+        <div id="message_display">Order Completed</div>
     </div>
 </div>

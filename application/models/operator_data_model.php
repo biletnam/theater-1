@@ -54,7 +54,7 @@ class operator_data_model extends CI_Model {
         if ($order) {
             $this->db->order_by($order, $order_type);
         } else {
-            $this->db->order_by('user_id', $order_type);
+            $this->db->order_by('order_id', $order_type);
         }
 
         if ($limit_start && $limit_end) {
@@ -85,7 +85,7 @@ class operator_data_model extends CI_Model {
         if ($order) {
             $this->db->order_by($order, 'Asc');
         } else {
-            $this->db->order_by('user_id', 'Asc');
+            $this->db->order_by('order_id', 'Asc');
         }
         $query = $this->db->get();
         return $query->num_rows();

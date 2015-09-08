@@ -10,16 +10,23 @@
             <file>file:/E:/wamp/www/theater/application/views/admin/purchase_meterial/list.php</file>
             <file>file:/E:/wamp/www/theater/application/controllers/admin_operator_list.php</file>
             <file>file:/E:/wamp/www/theater/application/views/admin/includes/header.php</file>
+            <file>file:/E:/wamp/www/theater/application/models/operator_data_model.php</file>
             <file>file:/E:/wamp/www/theater/application/models/report_model.php</file>
+            <file>file:/E:/wamp/www/theater/application/views/admin/products/add.php</file>
+            <file>file:/E:/wamp/www/theater/application/controllers/admin_products.php</file>
             <file>file:/E:/wamp/www/theater/application/models/operator_model.php</file>
             <file>file:/E:/wamp/www/theater/application/models/material_model.php</file>
-            <file>file:/E:/wamp/www/theater/application/controllers/admin_report.php</file>
+            <file>file:/E:/wamp/www/theater/application/models/products_model.php</file>
+            <file>file:/E:/wamp/www/theater/application/views/admin/products/ingr.php</file>
             <file>file:/E:/wamp/www/theater/application/controllers/admin_report_today.php</file>
+            <file>file:/E:/wamp/www/theater/application/controllers/admin_report.php</file>
+            <file>file:/E:/wamp/www/theater/application/controllers/admin_operator_data.php</file>
             <file>file:/E:/wamp/www/theater/application/controllers/admin_operator.php</file>
             <file>file:/E:/wamp/www/theater/application/libraries/access_level.php</file>
             <file>file:/E:/wamp/www/theater/application/views/admin/category/list.php</file>
             <file>file:/E:/wamp/www/theater/application/config/routes.php</file>
             <file>file:/E:/wamp/www/theater/application/views/admin/operator_view.php</file>
+            <file>file:/E:/wamp/www/theater/application/views/admin/operator_data/list.php</file>
         </group>
     </open-files>
 </project-private>

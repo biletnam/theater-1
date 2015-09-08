@@ -1,12 +1,12 @@
 <?php
 
 class Admin_products extends CI_Controller {
+
     /**
      * name of the folder responsible for the views
      * which are manipulated by this controller
      * @constant string
      */
-
     const VIEW_FOLDER = 'admin/products';
 
     /**
@@ -390,12 +390,18 @@ class Admin_products extends CI_Controller {
         $product_data = $this->products_model->get_products_by_id($product_id);
         $data['product_name'] = @$product_data[0]['title'];
         $data['all_ingr'] = $this->products_model->get_ingredients_data_by_product_id($product_id);
+//        echo "<pre>";
+//        print_r();
+//        die;
+        $where = " AND parent_id= '0' ";
+        $data['uom_opt'] = $this->common_model->getDDArray('uom', 'uom_id', 'uom');
+        unset($data['uom_opt']['']);
         $data['main_content'] = 'admin/products/ingr';
         $this->load->view('admin/includes/template', $data);
     }
 
     function get_row_material($searchStr) {
-        $whereAutoComplete = " AND ( name like '%{$searchStr}%' )";
+        $whereAutoComplete = " AND ( title like '%{$searchStr}%' )";
         $autocomplete_data = $this->products_model->getAutocompleteProductList($whereAutoComplete);
         echo $autocomplete_data;
         exit;
@@ -403,14 +409,16 @@ class Admin_products extends CI_Controller {
 
     function get_uom() {
         $item_row_material_id = $this->input->post('item_row_material_id');
-        $uom_arr = $this->products_model->get_uom_by_id($item_row_material_id);
-        echo $uom = $uom_arr[0]['uom'];
+        $uom_id = $this->input->post('uom_id');
+        $uom_arr = $this->products_model->get_uom_by_id($uom_id);
+        echo $uom_id;
+        //echo $uom = $uom_arr[0]['uom'];
     }
 
     function get_cost() {
         $item_row_material_id = $this->input->post('item_row_material_id');
         $uom_arr = $this->products_model->get_cost_by_id($item_row_material_id);
-        echo $uom = $uom_arr[0]['cost'];
+        echo $uom = $uom_arr[0]['price'];
     }
 
     function add_ingr() {

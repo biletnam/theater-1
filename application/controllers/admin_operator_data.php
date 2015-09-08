@@ -37,13 +37,14 @@ class Admin_operator_data extends CI_Controller {
     public function index() {
 //        echo $this->uri->segment(3);
 //        die;
-        if ($this->uri->segment(3)) {
-            $user_id = $this->uri->segment(3);
-        } else {
-            $session_arr = $this->session->all_userdata();
-            $user_id = $session_arr['user_id'];
-        }
-
+//        if ($this->uri->segment(3)) {
+//            $user_id = $this->uri->segment(3);
+//        } else {
+//            $session_arr = $this->session->all_userdata();
+//            $user_id = $session_arr['user_id'];
+//        }
+        $session_arr = $this->session->all_userdata();
+        $user_id = $session_arr['user_id'];
         //all the posts sent by the view
         $search_string = $this->input->post('search_string');
         $order = $this->input->post('order');

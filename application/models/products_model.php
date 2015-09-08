@@ -136,38 +136,39 @@ class products_model extends CI_Model {
 
     function getAutocompleteProductList($where = '') {
         $autoProduct = array();
-        $sql = "select * from item_row_material where 1 AND status = 'Active' {$where}";
+        $sql = "select * from products where 1 AND status = 'Active' AND (product_type = 'RM' OR product_type= 'BOTH') {$where}";
 
         $query = $this->db->query($sql);
         $data = $query->result();
+
         if ($data) {
             foreach ($data as $dataP) {
                 $temp = array();
-                $temp['item_row_material_id'] = $dataP->item_row_material_id;
-                $temp['value'] = $dataP->name;
-                $temp['name'] = $dataP->name;
+                $temp['item_row_material_id'] = $dataP->products_id;
+                $temp['value'] = $dataP->title;
+                $temp['name'] = $dataP->title;
                 $temp['uom'] = $dataP->uom;
                 $temp['qty'] = $dataP->qty;
                 $temp['tokens'] = array($temp['item_row_material_id'], $temp['name']);
-                $autoProduct[$dataP->item_row_material_id] = $temp;
+                $autoProduct[$dataP->products_id] = $temp;
             }
         }
         return $autoProduct1 = json_encode($autoProduct);
         //return $autoProduct;
     }
 
-    function get_uom_by_id($item_row_material_id) {
+    function get_uom_by_id($uom_id) {
         $this->db->select('uom');
-        $this->db->from('item_row_material');
-        $this->db->where('item_row_material_id', $item_row_material_id);
+        $this->db->from('uom');
+        $this->db->where('uom_id', $uom_id);
         $query = $this->db->get();
         return $query->result_array();
     }
 
     function get_cost_by_id($item_row_material_id) {
-        $this->db->select('cost');
-        $this->db->from('item_row_material');
-        $this->db->where('item_row_material_id', $item_row_material_id);
+        $this->db->select('price');
+        $this->db->from('products');
+        $this->db->where('products_id', $item_row_material_id);
         $query = $this->db->get();
         return $query->result_array();
     }
