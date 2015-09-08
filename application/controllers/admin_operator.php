@@ -71,7 +71,7 @@ class Admin_operator extends CI_Controller {
             <a onclick="myAddClass(this)" href="javascript:void(0)" class='item_qua current qua_css'>1</a><a onclick="myAddClass(this)" href="javascript:void(0)" class="append_qua abc"></a>
             <div class="price_tit" href="javascript:void(0)"><?php echo $detail['price'] ?></div>
             <div href="javascript:void(0)" data-title='<?php echo $detail['title'] ?>' data-fix='<?php echo $detail['price'] ?>' data-price='<?php echo $detail['price'] ?>' class='item_price curr_price item_price_css'><?php echo $detail['price'] ?></div>
-            <a onclick="removeItem(this)" class="cancel_btn" href="javascript:void(0)">X</a>
+            <a href="javascript:void(0);" onclick="removeItem(this)" class="cancel_btn">X</a>
             <?php
         }
         echo "</div>";
@@ -153,6 +153,9 @@ class Admin_operator extends CI_Controller {
     }
 
     public function update_session() {
+//        echo "<pre>";
+//        print_r($_POST);
+//        echo "</pre>";
         $product_id = $this->input->post('product_id');
         $product_quantity = $this->input->post('add_count');
         $total = $this->input->post('total_product_price');
@@ -166,12 +169,17 @@ class Admin_operator extends CI_Controller {
             "quantity" => $product_quantity,
             "total" => $total
         );
-
         $array = array($product_id => $arr);
 
         $data = $this->session->userdata('my_order');
+//        echo "<pre>";
+//        print_r($data);
+//        echo "</pre>";
         $data[$product_id] = $arr;
         $this->session->set_userdata('my_order', $data);
+//        echo "<pre>";
+//        print_r($this->session->userdata('my_order'));
+//        echo "</pre>";
     }
 
     public function delete_session() {

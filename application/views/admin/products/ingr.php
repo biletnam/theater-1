@@ -22,15 +22,16 @@
             var product = datum;
             //console.log(product);
             var item_row_material_id = product.item_row_material_id;
+            var uom_id = product.uom;
             //alert(item_row_material_id);
-            put_value(item_row_material_id);
+            put_value(item_row_material_id, uom_id);
         });
 
         $("#material_qua").keyup(function(e) {
             //var code = $(this).keycode;
             var code = (e.keyCode ? e.keyCode : e.which);
             if (code >= 96 && code <= 105 || code >= 48 && code <= 57) {
-                var per_cost = $('#material_cost').val();
+                var per_cost = $('#material_cost').attr('data-price');
                 var new_qua = $(this).val();
                 var new_cost = parseFloat(per_cost) * parseFloat(new_qua);
                 $('#material_cost').val(new_cost)
@@ -39,14 +40,14 @@
 
     });
 
-    function put_value(id) {
+    function put_value(id, uom_id) {
         var item_row_material_id = id;
         $.ajax({
             url: base_url + 'admin_products/get_uom',
             type: "POST",
-            data: {item_row_material_id: item_row_material_id},
+            data: {item_row_material_id: item_row_material_id, uom_id: uom_id},
             success: function(data) {
-                $('#material_uom').val(data);
+                $('#material_uom').val(data).attr('selected');
                 var name = $('#name').val();
                 $('#material_name').val(name);
                 //alert(name);
@@ -66,6 +67,7 @@
             success: function(data) {
                 $('#material_qua').val(1);
                 $('#material_cost').val(data);
+                $('#material_cost').attr('data-price', data);
             },
             error: function() {
             }
@@ -77,14 +79,15 @@
         var id = $(e).attr('data-id');
         var name = $('.name_' + id).text();
         var qua = $('.qua_' + id).text();
-        var uom = $('.uom_' + id).text();
+        //var uom = $('.uom_' + id).text();
+        var uom = $('.uom_' + id).attr('uom-id');
         var cost = $('.cost_' + id).text();
 
         $('#edit_text_box').val(id);
         $('#material_name').val(name);
         $('#name').val(name);
         $('#material_qua').val(qua);
-        $('#material_uom').val(uom);
+        $('#material_uom').val(uom).attr('selected');
         $('#material_cost').val(cost);
     }
 
@@ -184,7 +187,13 @@ if ($this->session->flashdata('flash_message')) {
                 ?>">
                 <td><input id="name" type="text" name="name"><span class="valid_msg"></span></td>
                 <td><input id="material_qua" type="text" name="quantity"><span class="valid_msg"></span></td>
-                <td><input id="material_uom" type="text" name="uom" readonly></td>
+                <td>
+<!--                    <input id="material_uom" type="text" name="uom">-->
+                    <?php
+                    $js = "";
+                    $attribute = 'id="material_uom"  onchange="' . $js . '" ';
+                    echo form_dropdown('uom', $uom_opt, '', $attribute);
+                    ?></td>
                 <td><input id="material_cost" type="text" name="cost" readonly></td>
                 <td>
                     <input id="add_ingr" class="btn btn-success" type="submit" name="add" value="Add Ingr">
@@ -198,10 +207,13 @@ if ($this->session->flashdata('flash_message')) {
                     <?php
                     foreach ($all_ingr as $row) {
                         $product_ingredients_id = $row['product_ingredients_id'];
+                        $where = "AND uom_id=" . $row['uom'];
+                        $uom = $this->common_model->getFieldData('uom', 'uom', $where);
+
                         echo '<tr>';
                         echo '<td class="name_' . $product_ingredients_id . '">' . $row['material_name'] . '</td>';
                         echo '<td class="qua_' . $product_ingredients_id . '">' . $row['material_qua'] . '</td>';
-                        echo '<td class="uom_' . $product_ingredients_id . '">' . $row['uom'] . '</td>';
+                        echo '<td uom-id=' . $row['uom'] . ' class="uom_' . $product_ingredients_id . '">' . $uom . '</td>';
                         echo '<td class="cost_' . $product_ingredients_id . '">' . $row['cost'] . '</td>';
                         echo '<td class="crud-actions">
                   <a onclick="editproduct(this)" data-id="' . $row['product_ingredients_id'] . '" href="javascript:void(0)" class="btn btn-info">view & edit</a>
